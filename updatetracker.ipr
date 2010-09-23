@@ -10,6 +10,22 @@
       <maximumStackSize value="32" />
       <properties />
     </buildFile>
+    <buildFile url="file://$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceInterface/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
+      <customJdkName value="" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="32" />
+      <properties />
+    </buildFile>
+    <buildFile url="file://$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceImpl/build.xml">
+      <additionalClassPath />
+      <antReference projectDefault="true" />
+      <customJdkName value="" />
+      <maximumHeapSize value="128" />
+      <maximumStackSize value="32" />
+      <properties />
+    </buildFile>
   </component>
   <component name="Archetypes.Configuration">
     <option name="archetypesFileLocation" value="archetypes.xml" />
@@ -287,7 +303,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/updatetracker.iml" filepath="$PROJECT_DIR$/updatetracker.iml" />
-      <module fileurl="file://$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebservice.iml" filepath="$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebservice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceImpl/updatetrackerwebserviceImpl.iml" filepath="$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceImpl/updatetrackerwebserviceImpl.iml" />
+      <module fileurl="file://$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceInterface/updatetrackerwebserviceInterface.iml" filepath="$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceInterface/updatetrackerwebserviceInterface.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_5" assert-keyword="true" jdk-15="true" project-jdk-name="1.6 (1)" project-jdk-type="JavaSDK">
@@ -314,5 +331,52 @@
     <mapping directory="" vcs="svn" />
   </component>
   <component name="WebServicesPlugin" addRequiredLibraries="true" />
+  <component name="libraryTable">
+    <library name="domsutils">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/jars/webservice-common.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/jars/surveyable_impl.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/jars/surveyable_interface.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/webservice-common/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_interface/src" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_impl/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_interface/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/webservice-common/src" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_impl/src" />
+      </SOURCES>
+    </library>
+    <library name="jaxws">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/jaxb-api.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/saaj-impl.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/jaxb-impl.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/streambuffer.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/jaxws-api.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/jaxws-tools.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/jaxws-rt.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/resolver.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/mimepull.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/jsr173_api.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/stax-ex.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/FastInfoset.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/activation.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/saaj-api.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/jaxb-xjc.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/woodstox.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/jsr181-api.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/http.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/jars/jsr250-api.jar!/" />
+      </CLASSES>
+      <JAVADOC>
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/apidocs/jaxws-2.1.7-apidocs.zip!/" />
+      </JAVADOC>
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/src/jaxws-src.zip!/jaxws-ri-20090416/src" />
+      </SOURCES>
+    </library>
+  </component>
 </project>
 

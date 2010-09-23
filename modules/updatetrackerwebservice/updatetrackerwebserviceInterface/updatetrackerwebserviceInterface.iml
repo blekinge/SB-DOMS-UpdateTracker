@@ -7,6 +7,17 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" exported="">
+      <library name="interface">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/dist/updatetrackerwebserviceInterface.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/dist/updatetrackerwebserviceInterface-src.zip!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
   </component>
 </module>
 
