@@ -1,7 +1,10 @@
 package dk.statsbiblioteket.doms.updatetracker.webservice;
 
 import javax.jws.WebParam;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.lang.*;
+import java.lang.String;
+import java.util.List;
 /* $Id$
  * $Revision$
  * $Date$
@@ -29,20 +32,20 @@ import java.lang.*;
  */
 
 public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
+
     /**
-     * Create a new object. The new object is created by
-     * cloning
-     * the template, which is given (as a pid) to this method.
+     * TODO javadoc
      *
-     * @param pid
-     * @throws InvalidCredentialsException
-     *
-     * @throws InvalidResourceException
-     *
+     * @param collectionPid
+     * @param entryCMPid
+     * @param beginTime
+     * @return returns java.util.List<dk.statsbiblioteket.doms.updatetracker.webservice.PidDatePidPid>
      * @throws MethodFailedException
      *
+     * @throws InvalidCredentialsException
+     *
      */
-    public void newObject(@WebParam(name = "pid", targetNamespace = "") java.lang.String pid) throws InvalidCredentialsException, InvalidResourceException, MethodFailedException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public List<PidDatePidPid> listObjectsChangedSince(@WebParam(name = "collectionPid", targetNamespace = "") String collectionPid, @WebParam(name = "entryCMPid", targetNamespace = "") String entryCMPid, @WebParam(name = "beginTime", targetNamespace = "") XMLGregorianCalendar beginTime) throws InvalidCredentialsException, MethodFailedException {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

@@ -54,37 +54,33 @@
     </message>
 
     <!--Object method messages-->
-    <message name="newObject">
-        <part name="parameters" element="tns:newObject"/>
+    <message name="listObjectsChangedSince">
+        <part name="parameters" element="tns:listObjectsChangedSince"/>
     </message>
-    <message name="newObjectResponse">
-        <part name="parameters" element="tns:newObjectResponse"/>
+    <message name="listObjectsChangedSinceResponse">
+        <part name="parameters" element="tns:listObjectsChangedSinceResponse"/>
     </message>
 
     <portType name="UpdateTrackerWebservice">
         <documentation>UpdateTracker of the DOMS system
         </documentation>
         <!--Object methods-->
-        <operation name="newObject">
-            <documentation>Create a new object. The new object is created by
-                cloning
-                the template, which is given (as a pid) to this method.
+        <operation name="listObjectsChangedSince">
+            <documentation> TODO javadoc
             </documentation>
-            <input message="tns:newObject"/>
-            <output message="tns:newObjectResponse"/>
+            <input message="tns:listObjectsChangedSince"/>
+            <output message="tns:listObjectsChangedSinceResponse"/>
             <fault name="InvalidCredentialsException"
                    message="tns:InvalidCredentialsException"/>
             <fault name="MethodFailedException"
                    message="tns:MethodFailedException"/>
-            <fault name="InvalidResourceException"
-                   message="tns:InvalidResourceException"/>
         </operation>
     </portType>
     <binding name="UpdateTrackerWebservicePortBinding"
              type="tns:UpdateTrackerWebservice">
         <soap:binding transport="http://schemas.xmlsoap.org/soap/http"
                       style="document"/>
-        <operation name="newObject">
+        <operation name="listObjectsChangedSince">
             <soap:operation soapAction=""/>
             <input>
                 <soap:body use="literal"/>
@@ -97,9 +93,6 @@
             </fault>
             <fault name="InvalidCredentialsException">
                 <soap:fault name="InvalidCredentialsException" use="literal"/>
-            </fault>
-            <fault name="InvalidResourceException">
-                <soap:fault name="InvalidResourceException" use="literal"/>
             </fault>
         </operation>
     </binding>

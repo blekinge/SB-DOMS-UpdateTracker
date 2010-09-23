@@ -37,13 +37,15 @@
     <xs:element name="InvalidCredentialsException" type="xs:string"/>
 
 
-    <xs:element name="newObject" type="tns:singlePid"/>
-    <xs:element name="newObjectResponse" type="tns:void"/>
+    <xs:element name="listObjectsChangedSince" type="tns:pidPidDate"/>
+    <xs:element name="listObjectsChangedSinceResponse" type="tns:pidDatePidPidList"/>
 
     <!--Simple types-->
-    <xs:complexType name="singlePid">
+    <xs:complexType name="pidPidDate">
         <xs:sequence>
-            <xs:element name="pid" type="xs:string"/>
+            <xs:element name="collectionPid" type="xs:string"/>
+            <xs:element name="entryCMPid" type="xs:string"/>
+            <xs:element name="beginTime" type="xs:date"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -54,14 +56,18 @@
     </xs:complexType>
 
 
-    <xs:complexType name="void">
+    <xs:complexType name="pidDatePidPidList">
         <xs:sequence>
+            <xs:element name="result" type="tns:pidDatePidPid" maxOccurs="unbounded" minOccurs="0"/>
         </xs:sequence>
     </xs:complexType>
 
-    <xs:complexType name="Stringlist">
+    <xs:complexType name="pidDatePidPid">
         <xs:sequence>
-            <xs:element name="string" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element name="pid" type="xs:string"/>
+            <xs:element name="beginTime" type="xs:date"/>
+            <xs:element name="collectionPid" type="xs:string"/>
+            <xs:element name="entryCMPid" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -91,7 +97,5 @@
             <xs:element name="URL" type="xs:anyURI"/>
         </xs:sequence>
     </xs:complexType>
-
-
 
 </xs:schema>
