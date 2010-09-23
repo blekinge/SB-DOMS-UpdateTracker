@@ -1,0 +1,64 @@
+<!--
+  ~ Doms build framework version 1.0.10
+  ~
+  ~ $Id$
+  ~ $Revision$
+  ~ $Date$
+  ~ $Author$
+  ~
+  ~ The DOMS project.
+  ~ Copyright (C) 2007-2010  The State and University Library
+  ~
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<project name="webservice">
+    <import file="build-module.xml"/>
+
+    <property name="wsdl.dir" value="data/wsdl"/>
+
+    <fileset id="webinf" dir="${basedir}/web/WEB-INF">
+    </fileset>
+
+    <fileset id="webcontent" dir="${basedir}/web">
+        <exclude name="WEB-INF/**"/>
+    </fileset>
+
+    <target name="war" depends="jar" unless="codeNotChanged">
+        <buildwar jars.to.pack="classpath"
+                  warfilename="${warfilename}"
+                  web-inf="webinf"
+                  web-content="webcontent"
+                  wsdl.dir="${wsdl.dir}"/>
+        <delete file="dist/${jarfile}"/>
+    </target>
+
+    <target name="compile.check">
+        <uptodate property="codeNotChanged" targetfile="dist/${warfilename}">
+            <srcfiles dir="src">
+                <include name="**/*"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+
+    <target name="all" depends="war,module.all"/>
+
+    <!--All project libs are packed in the war, do not copy them-->
+    <target name="_copyLibsForDist" depends="_copyLicensesForDist"/>
+
+</project>
