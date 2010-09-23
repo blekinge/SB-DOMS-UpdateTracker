@@ -1,0 +1,97 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!--
+  ~ $Id$
+  ~ $Revision$
+  ~ $Date$
+  ~ $Author$
+  ~
+  ~ The DOMS project.
+  ~ Copyright (C) 2007-2010  The State and University Library
+  ~
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<xs:schema xmlns:tns="http://updatetracker.doms.statsbiblioteket.dk/"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema" version="1.0"
+           targetNamespace="http://updatetracker.doms.statsbiblioteket.dk/">
+
+    <!--Exceptions-->
+
+    <xs:element name="MethodFailedException" type="xs:string"/>
+    <xs:element name="InvalidResourceException" type="xs:string"/>
+    <xs:element name="InvalidCredentialsException" type="xs:string"/>
+
+
+    <xs:element name="newObject" type="tns:singlePid"/>
+    <xs:element name="newObjectResponse" type="tns:void"/>
+
+    <!--Simple types-->
+    <xs:complexType name="singlePid">
+        <xs:sequence>
+            <xs:element name="pid" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Pidlist">
+        <xs:sequence>
+            <xs:element name="pids" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="void">
+        <xs:sequence>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="Stringlist">
+        <xs:sequence>
+            <xs:element name="string" type="xs:string" maxOccurs="unbounded" minOccurs="0"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="string">
+        <xs:sequence>
+            <xs:element name="string" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="pidAndName">
+        <xs:sequence>
+            <xs:element name="pid" type="xs:string"/>
+            <xs:element name="viewAngle" type="xs:string"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="long">
+        <xs:sequence>
+            <xs:element name="date" type="xs:long"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+    <xs:complexType name="URL">
+        <xs:sequence>
+            <xs:element name="URL" type="xs:anyURI"/>
+        </xs:sequence>
+    </xs:complexType>
+
+
+
+</xs:schema>

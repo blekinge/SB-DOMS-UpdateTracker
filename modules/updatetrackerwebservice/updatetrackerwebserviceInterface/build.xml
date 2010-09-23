@@ -1,0 +1,26 @@
+<project name="updatetrackerwebserviceInterface" basedir=".">
+
+    <property name="global.dir" value="${basedir}/../../.."/>
+    <property file="${global.dir}/build.properties"/>
+
+    <property name="wsdl.package"
+              value="dk.statsbiblioteket.doms.updatetracker.webservice"/>
+
+    <property name="wsdl.dir"
+              value="${global.dir}/modules/updatetrackerwebservice/updatetrackerwebserviceInterface/data/wsdl"/>
+    <property name="wsdl.file"
+              value="${wsdl.dir}/updatetracker.wsdl"/>
+<!--
+    <property name="generalSuperExceptionName"
+              value="dk.statsbiblioteket.doms.bitstorage.lowlevel.LowlevelSoapException"/>
+-->
+
+    <import file="${global.dir}/build/build-webservice-interface-module.xml"/>
+
+    <!--Project libs used by this module-->
+<!--
+    <dirset id="project.libs" dir="${global.dir}/lib/">
+        <include name="${sbutils.lib}"/>
+    </dirset>
+-->
+</project>
