@@ -1,0 +1,7 @@
+<project name="updatetracker" basedir=".">
+
+    <target name="dist">
+        <mkdir dir="dist"/>
+    </target>
+    
+</project>

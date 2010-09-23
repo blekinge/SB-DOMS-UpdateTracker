@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project default="qa-report" name="qa-report" basedir=".">
+
+    <property file="build.properties"/>
+
+    <property name="report.html" value="${user.home}/public_html/qa/report.html"/>
+
+    <!-- ADD NEW MODULES TO THE CLASSPATH HERE.
+         YOU MUST ALSO ADD TO THE INSPECTED MODULES
+         IN THE BOTTOM OF THIS FILE -->
+    <path id="path.all">
+        <fileset dir="${basedir}">
+            <include name="lib/*.jar"/>
+        </fileset>
+        <pathelement location="../ingest/${classes.dir}"/>
+    </path>
+	
+	<target name="qa-report">
+	    <java fork="true"
+    	      classname="dk.statsbiblioteket.util.qa.PackageScannerDriver"
+    	      output="${report.html}"
+              classpathref="path.all"
+              dir="${basedir}/..">
+
+            <!-- Link to ViewVC server -->
+            <arg value="-s"/>
+            <arg value="http://merkur/viewvc/trunk/@MODULE@/src/@FILE@?root=doms&amp;view=log"/>
+
+            <!-- Set project name -->
+            <arg value="-n"/>
+            <arg value="SB DOMS"/>
+
+            <!-- Only scan packages in dk.statsbiblioteket name space -->
+            <arg value="-p"/>
+            <arg value="dk.statsbiblioteket"/>
+
+            <arg value="ingest/${classes.dir}"/>
+            <!-- ADD NEW MODULES HERE. YOU MUST ALSO ADD TO THE CLASSPATH
+                 IN THE TOP OF THIS FILE -->
+
+        </java>
+	</target>
+	
+    <target name="release" depends="qa-report"/>
+</project>
