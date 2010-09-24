@@ -61,6 +61,13 @@
         <part name="parameters" element="tns:listObjectsChangedSinceResponse"/>
     </message>
 
+    <message name="getLatestModificationTime">
+        <part name="parameters" element="tns:getLatestModificationTime"/>
+    </message>
+    <message name="getLatestModificationTimeResponse">
+        <part name="parameters" element="tns:getLatestModificationTimeResponse"/>
+    </message>
+
     <portType name="UpdateTrackerWebservice">
         <documentation>UpdateTracker of the DOMS system
         </documentation>
@@ -75,6 +82,17 @@
             <fault name="MethodFailedException"
                    message="tns:MethodFailedException"/>
         </operation>
+        <operation name="getLatestModificationTime">
+            <documentation> TODO javadoc
+            </documentation>
+            <input message="tns:getLatestModificationTime"/>
+            <output message="tns:getLatestModificationTimeResponse"/>
+            <fault name="InvalidCredentialsException"
+                   message="tns:InvalidCredentialsException"/>
+            <fault name="MethodFailedException"
+                   message="tns:MethodFailedException"/>
+        </operation>
+
     </portType>
     <binding name="UpdateTrackerWebservicePortBinding"
              type="tns:UpdateTrackerWebservice">
@@ -95,6 +113,22 @@
                 <soap:fault name="InvalidCredentialsException" use="literal"/>
             </fault>
         </operation>
+        <operation name="getLatestModificationTime">
+            <soap:operation soapAction=""/>
+            <input>
+                <soap:body use="literal"/>
+            </input>
+            <output>
+                <soap:body use="literal"/>
+            </output>
+            <fault name="MethodFailedException">
+                <soap:fault name="MethodFailedException" use="literal"/>
+            </fault>
+            <fault name="InvalidCredentialsException">
+                <soap:fault name="InvalidCredentialsException" use="literal"/>
+            </fault>
+        </operation>
+
     </binding>
     <service name="UpdateTrackerWebserviceService">
         <port name="UpdateTrackerWebservicePort"
