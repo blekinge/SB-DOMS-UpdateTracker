@@ -1,0 +1,7 @@
+Utilities for DOMS.
+
+Webservice-common:
+
+This module contains functionality for storing context configuration in a
+statically accessible collection, and for mapping exceptions from one type to
+another, especially useful for auto-generated SOAP-webservices from WSDLs

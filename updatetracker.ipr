@@ -370,18 +370,20 @@
   <component name="libraryTable">
     <library name="domsutils">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/jars/webservice-common.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/jars/surveyable_impl.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/jars/surveyable_interface.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.9/jars/surveyable_impl.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.9/jars/webservice-common.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.9/jars/surveyable_interface.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/webservice-common/tempsrc" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_interface/src" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_impl/tempsrc" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_interface/tempsrc" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/webservice-common/src" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.8/src/domsutil-0.0.8-src.zip!/domsutil-0.0.8/modules/surveyable/surveyable_impl/src" />
+        <root url="file://$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceInterface/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.9/src/domsutil-0.0.9-src.zip!/domsutil-0.0.9/modules/surveyable/surveyable_impl/src" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.9/src/domsutil-0.0.9-src.zip!/domsutil-0.0.9/modules/surveyable/surveyable_interface/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.9/src/domsutil-0.0.9-src.zip!/domsutil-0.0.9/modules/webservice-common/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.9/src/domsutil-0.0.9-src.zip!/domsutil-0.0.9/modules/surveyable/surveyable_impl/tempsrc" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.9/src/domsutil-0.0.9-src.zip!/domsutil-0.0.9/modules/webservice-common/src" />
+        <root url="file://$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceImpl/src" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.9/src/domsutil-0.0.9-src.zip!/domsutil-0.0.9/modules/surveyable/surveyable_interface/src" />
       </SOURCES>
     </library>
     <library name="jaxws">
