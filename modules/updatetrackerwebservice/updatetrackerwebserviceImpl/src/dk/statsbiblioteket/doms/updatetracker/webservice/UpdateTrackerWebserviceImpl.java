@@ -2,9 +2,13 @@ package dk.statsbiblioteket.doms.updatetracker.webservice;
 
 import javax.jws.WebParam;
 import javax.xml.datatype.XMLGregorianCalendar;
-import java.lang.*;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.DatatypeConfigurationException;
 import java.lang.String;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 /* $Id$
  * $Revision$
  * $Date$
@@ -40,12 +44,51 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
      * @param entryCMPid
      * @param beginTime
      * @return returns java.util.List<dk.statsbiblioteket.doms.updatetracker.webservice.PidDatePidPid>
-     * @throws MethodFailedException
      *
+     * @throws MethodFailedException
      * @throws InvalidCredentialsException
      *
      */
-    public List<PidDatePidPid> listObjectsChangedSince(@WebParam(name = "collectionPid", targetNamespace = "") String collectionPid, @WebParam(name = "entryCMPid", targetNamespace = "") String entryCMPid, @WebParam(name = "beginTime", targetNamespace = "") XMLGregorianCalendar beginTime) throws InvalidCredentialsException, MethodFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public List<PidDatePidPid> listObjectsChangedSince(
+            @WebParam(name = "collectionPid", targetNamespace = "")
+            String collectionPid,
+            @WebParam(name = "entryCMPid", targetNamespace = "")
+            String entryCMPid,
+            @WebParam(name = "beginTime", targetNamespace = "")
+            XMLGregorianCalendar beginTime)
+            throws InvalidCredentialsException, MethodFailedException {
+
+        List<PidDatePidPid> result = new ArrayList<PidDatePidPid>();
+
+        XMLGregorianCalendar lastChangedTime;
+        GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone(
+                "Europe/Copenhagen"));
+        calendar.set(GregorianCalendar.YEAR, 1999);
+        calendar.set(GregorianCalendar.MONTH, 12);
+        calendar.set(GregorianCalendar.DAY_OF_MONTH, 31);
+        calendar.set(GregorianCalendar.HOUR_OF_DAY, 23);
+        calendar.set(GregorianCalendar.MINUTE, 59);
+        calendar.set(GregorianCalendar.SECOND, 59);
+        calendar.set(GregorianCalendar.MILLISECOND, 999);
+
+        try {
+            lastChangedTime
+                    = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+                    calendar);
+        } catch (DatatypeConfigurationException e) {
+            throw new MethodFailedException(
+                    "Could not make new XMLGregorianCalendar", "");
+        }
+
+        // TODO mockup with more functionality, not hardcoded
+        PidDatePidPid objectThatChanged = new PidDatePidPid();
+        objectThatChanged.setPid("unknownPID");
+        objectThatChanged.setLastChangedTime(lastChangedTime);
+        objectThatChanged.setCollectionPid("unknownPID");
+        objectThatChanged.setEntryCMPid("unknownPID");
+
+        result.add(objectThatChanged);
+
+        return result;
     }
 }

@@ -65,7 +65,7 @@
     <xs:complexType name="pidDatePidPid">
         <xs:sequence>
             <xs:element name="pid" type="xs:string"/>
-            <xs:element name="beginTime" type="xs:date"/>
+            <xs:element name="lastChangedTime" type="xs:date"/>
             <xs:element name="collectionPid" type="xs:string"/>
             <xs:element name="entryCMPid" type="xs:string"/>
         </xs:sequence>
