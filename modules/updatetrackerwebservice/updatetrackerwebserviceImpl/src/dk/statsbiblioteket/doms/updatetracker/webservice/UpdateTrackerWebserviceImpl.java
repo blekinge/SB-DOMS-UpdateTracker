@@ -1,51 +1,56 @@
 package dk.statsbiblioteket.doms.updatetracker.webservice;
 
+import dk.statsbiblioteket.doms.webservices.Credentials;
+
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.ws.handler.MessageContext;
+import javax.xml.ws.WebServiceContext;
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.lang.String;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.TimeZone;
+import java.net.MalformedURLException;
 
-/* $Id$
-* $Revision$
-* $Date$
-* $Author$
-*
-* The DOMS project.
-* Copyright (C) 2007-2009  The State and University Library
-*
-* Licensed to the Apache Software Foundation (ASF) under one
-* or more contributor license agreements.  See the NOTICE file
-* distributed with this work for additional information
-* regarding copyright ownership.  The ASF licenses this file
-* to you under the Apache License, Version 2.0 (the
-* "License"); you may not use this file except in compliance
-* with the License.  You may obtain a copy of the License at
-*
-*    http://www.apache.org/licenses/LICENSE-2.0
-*
-* Unless required by applicable law or agreed to in writing,
-* software distributed under the License is distributed on an
-* "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
-* KIND, either express or implied.  See the License for the
-* specific language governing permissions and limitations
-* under the License.
-*/
-@WebService(endpointInterface = "dk.statsbiblioteket.doms.updatetracker.webservice.UpdateTrackerWebservice")
-public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
+@WebService(endpointInterface
+        = "dk.statsbiblioteket.doms.updatetracker.webservice"
+        + ".UpdateTrackerWebservice")
+public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
 
-       public List<PidDatePidPid> listObjectsChangedSince(
-            @WebParam(name = "collectionPid", targetNamespace = "") String s,
-            @WebParam(name = "entryCMPid", targetNamespace = "") String s1,
-            @WebParam(name = "viewAngle", targetNamespace = "") String s2,
+    @Resource
+    WebServiceContext context;
+
+    /**
+     * TODO javadoc
+     *
+     * @param collectionPid
+     * @param entryCMPid
+     * @param beginTime
+     * @return returns java.util.List<dk.statsbiblioteket.doms.updatetracker
+     * .webservice.PidDatePidPid>
+     *
+     * @throws MethodFailedException
+     * @throws InvalidCredentialsException
+     *
+     */
+    public List<PidDatePidPid> listObjectsChangedSince(
+            @WebParam(name = "collectionPid", targetNamespace = "")
+            String collectionPid,
+            @WebParam(name = "entryCMPid", targetNamespace = "")
+            String entryCMPid,
+            @WebParam(name = "viewAngle", targetNamespace = "")
+            String viewAngle,
             @WebParam(name = "beginTime", targetNamespace = "")
-            XMLGregorianCalendar xmlGregorianCalendar)
+            XMLGregorianCalendar beginTime)
             throws InvalidCredentialsException, MethodFailedException {
+
+        // TODO Un-mockup this class please :-)
 
         List<PidDatePidPid> result = new ArrayList<PidDatePidPid>();
 
@@ -69,18 +74,70 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
                     "Could not make new XMLGregorianCalendar", "");
         }
 
-        // TODO mockup with more functionality, not hardcoded
-        PidDatePidPid objectThatChanged = new PidDatePidPid();
-        objectThatChanged.setPid("unknownPID");
-        objectThatChanged.setLastChangedTime(lastChangedTime);
-        objectThatChanged.setCollectionPid("unknownPID");
-        objectThatChanged.setEntryCMPid("unknownPID");
 
-        result.add(objectThatChanged);
+        if (beginTime.toGregorianCalendar().after(
+                lastChangedTime.toGregorianCalendar())) {
+            return result;
+        }
+
+        // TODO Mockup by calling the getAllEntryObjectsInCollection method in
+        // ECM with collectionPID to get <PID, collectionPID, entryPID>.
+
+        String pidOfCollection = "doms:RadioTV_Collection";
+        List<String> allEntryObjectsInRadioTVCollection;
+        ECM ecmConnector = null;
+        try {
+            ecmConnector = new ECM(getCredentials(), "http://alhena:7980/ecm");
+        } catch (MalformedURLException e) {
+            throw new MethodFailedException("Malformed URL", "", e);
+        }
+
+        try {
+            allEntryObjectsInRadioTVCollection
+                    = ecmConnector.getAllEntryObjectsInCollection(
+                    pidOfCollection, "", "");
+        } catch (BackendInvalidCredsException e) {
+            throw new InvalidCredentialsException("Invalid credentials", "", e);
+        } catch (BackendMethodFailedException e) {
+            throw new MethodFailedException("Method failed", "", e);
+        }
+
+        for (String pid : allEntryObjectsInRadioTVCollection) {
+            PidDatePidPid objectThatChanged = new PidDatePidPid();
+            objectThatChanged.setPid(pid);
+            objectThatChanged.setLastChangedTime(lastChangedTime);
+            objectThatChanged.setCollectionPid(collectionPid);
+            objectThatChanged.setEntryCMPid(entryCMPid);
+
+            result.add(objectThatChanged);
+        }
 
         return result;
     }
 
+    /**
+     *
+     * @return
+     */
+    private Credentials getCredentials() {
+        HttpServletRequest request = (HttpServletRequest) context
+                .getMessageContext()
+                .get(MessageContext.SERVLET_REQUEST);
+        Credentials creds = (Credentials) request.getAttribute("Credentials");
+        if (creds == null) {
+//            log.warn("Attempted call at Central without credentials");
+            creds = new Credentials("", "");
+        }
+        return creds;
+    }
+
+    /**
+     *
+     * @param pidPidAngle
+     * @return
+     * @throws InvalidCredentialsException
+     * @throws MethodFailedException
+     */
     public XMLGregorianCalendar getLatestModificationTime(@WebParam(
             name = "getLatestModificationTime",
             targetNamespace = "http://updatetracker.doms.statsbiblioteket.dk/",

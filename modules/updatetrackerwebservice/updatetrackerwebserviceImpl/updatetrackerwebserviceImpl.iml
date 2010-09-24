@@ -10,6 +10,8 @@
     <orderEntry type="module" module-name="updatetrackerwebserviceInterface" />
     <orderEntry type="library" name="domsutils" level="project" />
     <orderEntry type="library" name="jaxws" level="project" />
+    <orderEntry type="library" name="jersey" level="project" />
+    <orderEntry type="library" name="servletapi" level="project" />
   </component>
 </module>
 

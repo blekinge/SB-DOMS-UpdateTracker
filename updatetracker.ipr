@@ -335,20 +335,6 @@
         <entry key="$PROJECT_DIR$">
           <value>
             <SvnBranchConfiguration>
-              <option name="branchMap">
-                <map>
-                  <entry key="https://doms.svn.sourceforge.net/svnroot/doms/updatetracker/branches">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                  <entry key="https://doms.svn.sourceforge.net/svnroot/doms/updatetracker/tags">
-                    <value>
-                      <list />
-                    </value>
-                  </entry>
-                </map>
-              </option>
               <option name="branchUrls">
                 <list>
                   <option value="https://doms.svn.sourceforge.net/svnroot/doms/updatetracker/branches" />
@@ -413,6 +399,31 @@
       </JAVADOC>
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/lib/jaxws-ri-2.1.7/src/jaxws-src.zip!/jaxws-ri-20090416/src" />
+      </SOURCES>
+    </library>
+    <library name="jersey">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/jersey-1.3/jars/jersey-server-1.3.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jersey-1.3/jars/jersey-client-1.3.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jersey-1.3/jars/jersey-core-1.3.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jersey-1.3/jars/jsr311-api-1.1.1.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jersey-1.3/jars/asm-3.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/jersey-1.3/source/jsr311-api-1.1.1-sources.zip!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jersey-1.3/source/jersey-core-1.3-sources.zip!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jersey-1.3/source/jersey-client-1.3-sources.zip!/" />
+        <root url="jar://$PROJECT_DIR$/lib/jersey-1.3/source/jersey-server-1.3-sources.zip!/" />
+      </SOURCES>
+    </library>
+    <library name="servletapi">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/servlet-api-2.5-apache-tomcat-6.0.20/jars/servlet-api.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/servlet-api-2.5-apache-tomcat-6.0.20/src/servlet-api-2.5-apache-tomcat-6.0.20-src.zip!/" />
       </SOURCES>
     </library>
   </component>
