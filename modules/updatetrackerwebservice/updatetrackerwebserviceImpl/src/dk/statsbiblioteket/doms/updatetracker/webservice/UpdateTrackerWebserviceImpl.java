@@ -1,6 +1,7 @@
 package dk.statsbiblioteket.doms.updatetracker.webservice;
 
 import javax.jws.WebParam;
+import javax.jws.WebService;
 import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.datatype.DatatypeFactory;
 import javax.xml.datatype.DatatypeConfigurationException;
@@ -34,7 +35,7 @@ import java.util.TimeZone;
  * specific language governing permissions and limitations
  * under the License.
  */
-
+@WebService(endpointInterface = "dk.statsbiblioteket.doms.updatetracker.webservice.UpdateTrackerWebservice")
 public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
 
     /**
