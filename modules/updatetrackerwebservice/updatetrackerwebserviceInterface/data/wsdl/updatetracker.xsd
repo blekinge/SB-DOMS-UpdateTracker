@@ -40,11 +40,11 @@
     <xs:element name="listObjectsChangedSince" type="tns:pidPidAngleDate"/>
     <xs:element name="listObjectsChangedSinceResponse" type="tns:pidDatePidPidList"/>
 
-    <xs:element name="getLatestModificationTime" type="tns:pidPidAngle"/>
-    <xs:element name="getLatestModificationTimeResponse" type="xs:date"/>
+    <xs:element name="getLatestModificationTime" type="tns:pidPidAngleInput"/>
+    <xs:element name="getLatestModificationTimeResponse" type="tns:date"/>
 
     <!--Simple types-->
-    <xs:complexType name="pidPidAngle">
+    <xs:complexType name="pidPidAngleInput">
         <xs:sequence>
             <xs:element name="collectionPid" type="xs:string"/>
             <xs:element name="entryCMPid" type="xs:string"/>
@@ -111,4 +111,9 @@
         </xs:sequence>
     </xs:complexType>
 
+    <xs:complexType name="date">
+        <xs:sequence>
+            <xs:element name="date" type="xs:date"/>
+        </xs:sequence>
+    </xs:complexType>
 </xs:schema>

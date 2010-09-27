@@ -20,11 +20,37 @@ import java.net.MalformedURLException;
 
 @WebService(endpointInterface
         = "dk.statsbiblioteket.doms.updatetracker.webservice"
-        + ".UpdateTrackerWebservice")
+          + ".UpdateTrackerWebservice")
 public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
 
     @Resource
     WebServiceContext context;
+
+
+    private XMLGregorianCalendar lastChangedTime;
+
+    public UpdateTrackerWebserviceImpl() throws MethodFailedException {
+
+
+        GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone(
+                "Europe/Copenhagen"));
+        calendar.set(GregorianCalendar.YEAR, 1999);
+        calendar.set(GregorianCalendar.MONTH, 12);
+        calendar.set(GregorianCalendar.DAY_OF_MONTH, 31);
+        calendar.set(GregorianCalendar.HOUR_OF_DAY, 23);
+        calendar.set(GregorianCalendar.MINUTE, 59);
+        calendar.set(GregorianCalendar.SECOND, 59);
+        calendar.set(GregorianCalendar.MILLISECOND, 999);
+
+        try {
+            lastChangedTime
+                    = DatatypeFactory.newInstance().newXMLGregorianCalendar(
+                    calendar);
+        } catch (DatatypeConfigurationException e) {
+            throw new MethodFailedException(
+                    "Could not make new XMLGregorianCalendar", "");
+        }
+    }
 
     /**
      * TODO javadoc
@@ -54,25 +80,6 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
 
         List<PidDatePidPid> result = new ArrayList<PidDatePidPid>();
 
-        XMLGregorianCalendar lastChangedTime;
-        GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone(
-                "Europe/Copenhagen"));
-        calendar.set(GregorianCalendar.YEAR, 1999);
-        calendar.set(GregorianCalendar.MONTH, 12);
-        calendar.set(GregorianCalendar.DAY_OF_MONTH, 31);
-        calendar.set(GregorianCalendar.HOUR_OF_DAY, 23);
-        calendar.set(GregorianCalendar.MINUTE, 59);
-        calendar.set(GregorianCalendar.SECOND, 59);
-        calendar.set(GregorianCalendar.MILLISECOND, 999);
-
-        try {
-            lastChangedTime
-                    = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-                    calendar);
-        } catch (DatatypeConfigurationException e) {
-            throw new MethodFailedException(
-                    "Could not make new XMLGregorianCalendar", "");
-        }
 
 
         if (beginTime.toGregorianCalendar().after(
@@ -115,6 +122,17 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
         return result;
     }
 
+    public XMLGregorianCalendar getLatestModificationTime(
+            @WebParam(name = "collectionPid", targetNamespace = "")
+            String collectionPid,
+            @WebParam(name = "entryCMPid", targetNamespace = "")
+            String entryCMPid,
+            @WebParam(name = "viewAngle", targetNamespace = "")
+            String viewAngle)
+            throws InvalidCredentialsException, MethodFailedException {
+        return lastChangedTime;
+    }
+
     /**
      *
      * @return
@@ -131,18 +149,4 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
         return creds;
     }
 
-    /**
-     *
-     * @param pidPidAngle
-     * @return
-     * @throws InvalidCredentialsException
-     * @throws MethodFailedException
-     */
-    public XMLGregorianCalendar getLatestModificationTime(@WebParam(
-            name = "getLatestModificationTime",
-            targetNamespace = "http://updatetracker.doms.statsbiblioteket.dk/",
-            partName = "parameters") PidPidAngle pidPidAngle)
-            throws InvalidCredentialsException, MethodFailedException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
 }
