@@ -113,7 +113,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
         try {
             allEntryObjectsInRadioTVCollection
                     = ecmConnector.getAllEntryObjectsInCollection(
-                    pidOfCollection, "", "");
+                    pidOfCollection, viewAngle, entryCMPid);
         } catch (BackendInvalidCredsException e) {
             throw new InvalidCredentialsException("Invalid credentials", "", e);
         } catch (BackendMethodFailedException e) {
