@@ -26,7 +26,7 @@ import java.net.MalformedURLException;
 @WebService(endpointInterface
         = "dk.statsbiblioteket.doms.updatetracker.webservice"
           + ".UpdateTrackerWebservice")
-public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
+public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
 
     @Resource
     WebServiceContext context;
@@ -61,17 +61,15 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
      * collection, that have changed since the given time.
      *
      * @param collectionPid The PID of the collection in which we are looking
-     * for changes.
-     * @param entryCMPid The PID of the content model which all listed records
-     * should adhere to.
-     * @param viewAngle ...TODO doc
-     * @param beginTime The time since which we are looking for changes.
+     *                      for changes.
+     * @param entryCMPid    The PID of the content model which all listed records
+     *                      should adhere to.
+     * @param viewAngle     ...TODO doc
+     * @param beginTime     The time since which we are looking for changes.
      * @return returns java.util.List<dk.statsbiblioteket.doms.updatetracker
-     * .webservice.PidDatePidPid>
-     *
+     *         .webservice.PidDatePidPid>
      * @throws MethodFailedException
      * @throws InvalidCredentialsException
-     *
      */
     public List<PidDatePidPid> listObjectsChangedSince(
             @WebParam(name = "collectionPid", targetNamespace = "")
@@ -81,8 +79,12 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
             @WebParam(name = "viewAngle", targetNamespace = "")
             String viewAngle,
             @WebParam(name = "beginTime", targetNamespace = "")
-            XMLGregorianCalendar beginTime)
-            throws InvalidCredentialsException, MethodFailedException {
+            XMLGregorianCalendar beginTime,
+            @WebParam(name = "state", targetNamespace = "")
+            String state)
+            throws InvalidCredentialsException,MethodFailedException
+
+    {
 
         // TODO Un-mockup this class please :-)
 
@@ -110,10 +112,21 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
         // TODO Mockup by calling the getAllEntryObjectsInCollection method in
         // ECM with collectionPID to get <PID, collectionPID, entryPID>.
 
+        if (state == null){
+            state = "Published";
+        }
+        if (state.equals("Published")){
+            state = "A";
+        }else if (state.equals("InProgress")){
+            state = "I";
+        } else {
+            state = "A";
+        }
+
         try {
             allEntryObjectsInRadioTVCollection
                     = ecmConnector.getAllEntryObjectsInCollection(
-                    pidOfCollection, viewAngle, entryCMPid);
+                    pidOfCollection, viewAngle, entryCMPid, state);
         } catch (BackendInvalidCredsException e) {
             throw new InvalidCredentialsException("Invalid credentials", "", e);
         } catch (BackendMethodFailedException e) {
@@ -138,10 +151,10 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
      * given content model entry, and in the given collection, has been changed.
      *
      * @param collectionPid The PID of the collection in which we are looking
-     * for the last change.
-     * @param entryCMPid The PID of the entry object of the content model which
-     * our changed record should adhere to.
-     * @param viewAngle ...TODO doc
+     *                      for the last change.
+     * @param entryCMPid    The PID of the entry object of the content model which
+     *                      our changed record should adhere to.
+     * @param viewAngle     ...TODO doc
      * @return The date/time of the last change.
      * @throws InvalidCredentialsException
      * @throws MethodFailedException
@@ -161,7 +174,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
     /**
      * TODO doc
      *
-     * @return  TODO doc
+     * @return TODO doc
      */
     private Credentials getCredentials() {
         HttpServletRequest request = (HttpServletRequest) context

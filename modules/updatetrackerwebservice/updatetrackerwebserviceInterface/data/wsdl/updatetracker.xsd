@@ -37,7 +37,7 @@
     <xs:element name="InvalidCredentialsException" type="xs:string"/>
 
 
-    <xs:element name="listObjectsChangedSince" type="tns:pidPidAngleDate"/>
+    <xs:element name="listObjectsChangedSince" type="tns:pidPidAngleDateString"/>
     <xs:element name="listObjectsChangedSinceResponse" type="tns:pidDatePidPidList"/>
 
     <xs:element name="getLatestModificationTime" type="tns:pidPidAngleInput"/>
@@ -53,12 +53,13 @@
     </xs:complexType>
 
 
-    <xs:complexType name="pidPidAngleDate">
+    <xs:complexType name="pidPidAngleDateString">
         <xs:sequence>
             <xs:element name="collectionPid" type="xs:string"/>
             <xs:element name="entryCMPid" type="xs:string"/>
             <xs:element name="viewAngle" type="xs:string"/>
             <xs:element name="beginTime" type="xs:date"/>
+            <xs:element name="state" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 

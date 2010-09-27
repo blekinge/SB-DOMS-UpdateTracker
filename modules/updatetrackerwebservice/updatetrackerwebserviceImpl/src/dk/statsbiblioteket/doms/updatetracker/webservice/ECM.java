@@ -84,7 +84,8 @@ public class ECM {
      */
     public List<String> getAllEntryObjectsInCollection(String collectionPid,
                                                        String viewAngle,
-                                                       String entryContentModel)
+                                                       String entryContentModel,
+                                                       String state)
             throws BackendInvalidCredsException,
             BackendMethodFailedException {
         try {
