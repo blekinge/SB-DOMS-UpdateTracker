@@ -18,6 +18,11 @@ import java.util.GregorianCalendar;
 import java.util.TimeZone;
 import java.net.MalformedURLException;
 
+/**
+ * Update tracker webservice. Provides upper layers of DOMS with info on changes
+ * to objects in Fedora. Used by DOMS Server aka. Central to provide Summa with
+ * said info.
+ */
 @WebService(endpointInterface
         = "dk.statsbiblioteket.doms.updatetracker.webservice"
           + ".UpdateTrackerWebservice")
@@ -25,7 +30,6 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
 
     @Resource
     WebServiceContext context;
-
 
     private XMLGregorianCalendar lastChangedTime;
 
@@ -53,11 +57,15 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
     }
 
     /**
-     * TODO javadoc
+     * Lists the entry objects of views (records) in Fedora, in the given
+     * collection, that have changed since the given time.
      *
-     * @param collectionPid
-     * @param entryCMPid
-     * @param beginTime
+     * @param collectionPid The PID of the collection in which we are looking
+     * for changes.
+     * @param entryCMPid The PID of the content model which all listed records
+     * should adhere to.
+     * @param viewAngle ...TODO doc
+     * @param beginTime The time since which we are looking for changes.
      * @return returns java.util.List<dk.statsbiblioteket.doms.updatetracker
      * .webservice.PidDatePidPid>
      *
@@ -80,24 +88,27 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
 
         List<PidDatePidPid> result = new ArrayList<PidDatePidPid>();
 
-
-
+        // Mockup: If wanted beginTime is AFTER our hardcoded lastChangedTime,
+        // we just return no objects/views/records at all.
         if (beginTime.toGregorianCalendar().after(
                 lastChangedTime.toGregorianCalendar())) {
             return result;
         }
-
-        // TODO Mockup by calling the getAllEntryObjectsInCollection method in
-        // ECM with collectionPID to get <PID, collectionPID, entryPID>.
+        // Mockup: If wanted beginTime is BEFORE (or =) our hardcoded
+        // lastChangedTime, connect to ECM and get a list of all entry objects
+        // in (hardcoded:) our RadioTVCollection. Return all these.
 
         String pidOfCollection = "doms:RadioTV_Collection";
         List<String> allEntryObjectsInRadioTVCollection;
-        ECM ecmConnector = null;
+        ECM ecmConnector;
         try {
             ecmConnector = new ECM(getCredentials(), "http://alhena:7980/ecm");
         } catch (MalformedURLException e) {
             throw new MethodFailedException("Malformed URL", "", e);
         }
+
+        // TODO Mockup by calling the getAllEntryObjectsInCollection method in
+        // ECM with collectionPID to get <PID, collectionPID, entryPID>.
 
         try {
             allEntryObjectsInRadioTVCollection
@@ -122,6 +133,19 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
         return result;
     }
 
+    /**
+     * Return the last time a view/record conforming to the content model of the
+     * given content model entry, and in the given collection, has been changed.
+     *
+     * @param collectionPid The PID of the collection in which we are looking
+     * for the last change.
+     * @param entryCMPid The PID of the entry object of the content model which
+     * our changed record should adhere to.
+     * @param viewAngle ...TODO doc
+     * @return The date/time of the last change.
+     * @throws InvalidCredentialsException
+     * @throws MethodFailedException
+     */
     public XMLGregorianCalendar getLatestModificationTime(
             @WebParam(name = "collectionPid", targetNamespace = "")
             String collectionPid,
@@ -130,12 +154,14 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice{
             @WebParam(name = "viewAngle", targetNamespace = "")
             String viewAngle)
             throws InvalidCredentialsException, MethodFailedException {
+
         return lastChangedTime;
     }
 
     /**
+     * TODO doc
      *
-     * @return
+     * @return  TODO doc
      */
     private Credentials getCredentials() {
         HttpServletRequest request = (HttpServletRequest) context
