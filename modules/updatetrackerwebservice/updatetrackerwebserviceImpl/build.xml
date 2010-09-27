@@ -53,6 +53,7 @@
         <include name="${jaxws-ri.lib}"/>
         <include name="${commons-logging.lib}"/>
         <include name="${saxon.lib}"/>
+        <include name="${jersey.lib}"/>
     </dirset>
 
     <dirset id="build.project.libs" dir="${global.dir}/lib/">
