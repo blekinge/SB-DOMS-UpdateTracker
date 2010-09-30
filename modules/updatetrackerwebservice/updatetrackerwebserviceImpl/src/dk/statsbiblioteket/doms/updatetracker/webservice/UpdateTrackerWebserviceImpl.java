@@ -62,10 +62,11 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
      *
      * @param collectionPid The PID of the collection in which we are looking
      *                      for changes.
-     * @param entryCMPid    The PID of the content model which all listed records
-     *                      should adhere to.
+     * @param entryCMPid    The PID of the content model which all listed
+     *                      records should adhere to.
      * @param viewAngle     ...TODO doc
      * @param beginTime     The time since which we are looking for changes.
+     * @param state         ...TODO doc
      * @return returns java.util.List<dk.statsbiblioteket.doms.updatetracker
      *         .webservice.PidDatePidPid>
      * @throws MethodFailedException
@@ -112,12 +113,12 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
         // TODO Mockup by calling the getAllEntryObjectsInCollection method in
         // ECM with collectionPID to get <PID, collectionPID, entryPID>.
 
-        if (state == null){
+        if (state == null) {
             state = "Published";
         }
-        if (state.equals("Published")){
+        if (state.equals("Published")) {
             state = "A";
-        }else if (state.equals("InProgress")){
+        } else if (state.equals("InProgress")) {
             state = "I";
         } else {
             state = "A";
@@ -152,8 +153,8 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
      *
      * @param collectionPid The PID of the collection in which we are looking
      *                      for the last change.
-     * @param entryCMPid    The PID of the entry object of the content model which
-     *                      our changed record should adhere to.
+     * @param entryCMPid    The PID of the entry object of the content model
+     *                      which our changed record should adhere to.
      * @param viewAngle     ...TODO doc
      * @return The date/time of the last change.
      * @throws InvalidCredentialsException
