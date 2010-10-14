@@ -7,15 +7,14 @@ import javax.annotation.Resource;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.servlet.http.HttpServletRequest;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 import java.lang.String;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Update tracker webservice. Provides upper layers of DOMS with info on changes
@@ -57,7 +56,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
             @WebParam(name = "viewAngle", targetNamespace = "")
             String viewAngle,
             @WebParam(name = "beginTime", targetNamespace = "")
-            XMLGregorianCalendar beginTime,
+            long beginTime,
             @WebParam(name = "state", targetNamespace = "")
             String state,
             @WebParam(name = "offset", targetNamespace = "") Integer offset,
@@ -70,6 +69,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
 
         return getModifiedObjects(collectionPid,
                                   viewAngle,
+                                  beginTime,
                                   state,
                                   offset,
                                   limit,
@@ -77,11 +77,12 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
     }
 
     public List<PidDatePidPid> getModifiedObjects(String collectionPid,
-                                                   String viewAngle,
-                                                   String state,
-                                                   Integer offset,
-                                                   Integer limit,
-                                                   boolean reverse
+                                                  String viewAngle,
+                                                  long beginTime,
+                                                  String state,
+                                                  Integer offset,
+                                                  Integer limit,
+                                                  boolean reverse
     )
             throws InvalidCredentialsException, MethodFailedException {
         List<PidDatePidPid> result = new ArrayList<PidDatePidPid>();
@@ -90,8 +91,8 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
         Fedora fedora;
         String fedoralocation = ConfigCollection.getProperties().getProperty(
                 "dk.statsbiblioteket.doms.updatetracker.fedoralocation");
-
         fedora = new Fedora(getCredentials(), fedoralocation);
+
 
         if (state == null) {
             state = "Published";
@@ -119,6 +120,14 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
                        + "and\n"
                        + "$object <fedora-view:lastModifiedDate> $date \n";
 
+
+        if (beginTime != 0){
+            String beginTimeDate
+                    = fedoraFormat.format(new Date(beginTime));
+            query = query + "$date <mulgara:after> '"+beginTimeDate+"'^^<xml-schema:dateTime> in <#xsd> \n";
+        }
+
+
         if (reverse){
             query = query + "order by $date desc";
         } else {
@@ -131,7 +140,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
         if (offset != 0) {
             query = query + "\n offset " + offset;
         }
-        
+
 
         try {
             allEntryObjectsInRadioTVCollection
@@ -151,7 +160,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
             objectThatChanged.setPid(pid);
             try {
                 objectThatChanged.setLastChangedTime(fedoraFormat.parse(
-                    lastModifiedFedoraDate).getTime());
+                        lastModifiedFedoraDate).getTime());
             } catch (ParseException e) {
                 throw new MethodFailedException("Failed to parse date for object",e.getMessage(),e);
             }
@@ -176,17 +185,18 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
      * @throws MethodFailedException
      */
     public long getLatestModificationTime(
-           @WebParam(name = "collectionPid", targetNamespace = "")
-           java.lang.String collectionPid,
-           @WebParam(name = "viewAngle", targetNamespace = "")
-           java.lang.String viewAngle,
-           @WebParam(name = "state", targetNamespace = "")
-           java.lang.String state)
-           throws InvalidCredentialsException, MethodFailedException
-       {
+            @WebParam(name = "collectionPid", targetNamespace = "")
+            java.lang.String collectionPid,
+            @WebParam(name = "viewAngle", targetNamespace = "")
+            java.lang.String viewAngle,
+            @WebParam(name = "state", targetNamespace = "")
+            java.lang.String state)
+            throws InvalidCredentialsException, MethodFailedException
+    {
 
         List<PidDatePidPid> lastChanged = getModifiedObjects(collectionPid,
                                                              viewAngle,
+                                                             0,
                                                              state,
                                                              0,
                                                              1,

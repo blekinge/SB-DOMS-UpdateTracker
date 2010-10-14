@@ -58,7 +58,7 @@
             <xs:element name="collectionPid" type="xs:string"/>
             <!--            <xs:element name="entryCMPid" type="xs:string"/>-->
             <xs:element name="viewAngle" type="xs:string"/>
-            <xs:element name="beginTime" type="xs:date"/>
+            <xs:element name="beginTime" type="xs:long"/>
             <xs:element name="state" type="xs:string"/>
             <xs:element name="offset" type="xs:int" minOccurs="0" nillable="true"/>
             <xs:element name="limit" type="xs:int" minOccurs="0" nillable="true"/>
