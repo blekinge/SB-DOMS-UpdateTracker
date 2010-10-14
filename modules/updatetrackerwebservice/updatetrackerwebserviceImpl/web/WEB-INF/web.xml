@@ -58,12 +58,9 @@
         <servlet-name>WSServlet</servlet-name>
     </filter-mapping>
 
-
-
-     <!--TODO-->
     <context-param>
         <description>the location of the fedora instance</description>
-        <param-name>dk.statsbiblioteket.doms.central.fedoraLocation</param-name>
+        <param-name>dk.statsbiblioteket.doms.updatetracker.fedoralocation</param-name>
         <param-value>http://localhost:8080/fedora</param-value>
     </context-param>
 
