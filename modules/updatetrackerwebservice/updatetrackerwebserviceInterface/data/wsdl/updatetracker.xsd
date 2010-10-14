@@ -47,7 +47,6 @@
     <xs:complexType name="pidPidAngleInput">
         <xs:sequence>
             <xs:element name="collectionPid" type="xs:string"/>
-            <xs:element name="entryCMPid" type="xs:string"/>
             <xs:element name="viewAngle" type="xs:string"/>
             <xs:element name="state" type="xs:string"/>
         </xs:sequence>

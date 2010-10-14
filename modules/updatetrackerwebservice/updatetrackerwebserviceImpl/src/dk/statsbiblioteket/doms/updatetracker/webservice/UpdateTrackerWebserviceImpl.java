@@ -89,7 +89,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
         List<String> allEntryObjectsInRadioTVCollection;
         Fedora fedora;
         String fedoralocation = ConfigCollection.getProperties().getProperty(
-                "dk.statsbiblioteket.doms.updatetracker.fedoraLocation");
+                "dk.statsbiblioteket.doms.updatetracker.fedoralocation");
 
         fedora = new Fedora(getCredentials(), fedoralocation);
 
@@ -97,11 +97,11 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
             state = "Published";
         }
         if (state.equals("Published")) {
-            state = "A";
+            state = "<fedora-model:Active>";
         } else if (state.equals("InProgress")) {
-            state = "I";
+            state = "<fedora-model:Inactive>";
         } else {
-            state = "A";
+            state = "<fedora-model:Active>";
         }
 
         String query = "select $object $cm $date\n"
@@ -125,13 +125,13 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
             query = query + "order by $date asc";
         }
 
-        if (offset != 0) {
-            query = query + "\n offset " + offset;
-        }
         if (limit != 0) {
             query = query + "\n limit " + limit;
         }
-
+        if (offset != 0) {
+            query = query + "\n offset " + offset;
+        }
+        
 
         try {
             allEntryObjectsInRadioTVCollection
@@ -144,7 +144,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
 
         for (String line : allEntryObjectsInRadioTVCollection) {
             PidDatePidPid objectThatChanged = new PidDatePidPid();
-            String[] splitted = line.split(" ");
+            String[] splitted = line.split(",");
             String pid = splitted[0];
             String entryCMPid = splitted[1];
             String lastModifiedFedoraDate = splitted[2];
@@ -170,8 +170,6 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
      *
      * @param collectionPid The PID of the collection in which we are looking
      *                      for the last change.
-     * @param entryCMPid    The PID of the entry object of the content model
-     *                      which our changed record should adhere to.
      * @param viewAngle     ...TODO doc
      * @return The date/time of the last change.
      * @throws InvalidCredentialsException
@@ -180,8 +178,6 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
     public long getLatestModificationTime(
            @WebParam(name = "collectionPid", targetNamespace = "")
            java.lang.String collectionPid,
-           @WebParam(name = "entryCMPid", targetNamespace = "")
-           java.lang.String entryCMPid,
            @WebParam(name = "viewAngle", targetNamespace = "")
            java.lang.String viewAngle,
            @WebParam(name = "state", targetNamespace = "")
