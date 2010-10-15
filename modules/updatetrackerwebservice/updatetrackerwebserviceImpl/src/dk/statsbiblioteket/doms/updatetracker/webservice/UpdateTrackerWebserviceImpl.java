@@ -1,22 +1,20 @@
 package dk.statsbiblioteket.doms.updatetracker.webservice;
 
+import dk.statsbiblioteket.doms.webservices.ConfigCollection;
 import dk.statsbiblioteket.doms.webservices.Credentials;
 
+import javax.annotation.Resource;
 import javax.jws.WebParam;
 import javax.jws.WebService;
-import javax.xml.datatype.XMLGregorianCalendar;
-import javax.xml.datatype.DatatypeFactory;
-import javax.xml.datatype.DatatypeConfigurationException;
-import javax.xml.ws.handler.MessageContext;
-import javax.xml.ws.WebServiceContext;
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import javax.xml.ws.WebServiceContext;
+import javax.xml.ws.handler.MessageContext;
 import java.lang.String;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.TimeZone;
-import java.net.MalformedURLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Update tracker webservice. Provides upper layers of DOMS with info on changes
@@ -31,29 +29,11 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
     @Resource
     WebServiceContext context;
 
-    private XMLGregorianCalendar lastChangedTime;
+    private DateFormat fedoraFormat = new SimpleDateFormat(
+            "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 
     public UpdateTrackerWebserviceImpl() throws MethodFailedException {
 
-
-        GregorianCalendar calendar = new GregorianCalendar(TimeZone.getTimeZone(
-                "Europe/Copenhagen"));
-        calendar.set(GregorianCalendar.YEAR, 1999);
-        calendar.set(GregorianCalendar.MONTH, 12);
-        calendar.set(GregorianCalendar.DAY_OF_MONTH, 31);
-        calendar.set(GregorianCalendar.HOUR_OF_DAY, 23);
-        calendar.set(GregorianCalendar.MINUTE, 59);
-        calendar.set(GregorianCalendar.SECOND, 59);
-        calendar.set(GregorianCalendar.MILLISECOND, 999);
-
-        try {
-            lastChangedTime
-                    = DatatypeFactory.newInstance().newXMLGregorianCalendar(
-                    calendar);
-        } catch (DatatypeConfigurationException e) {
-            throw new MethodFailedException(
-                    "Could not make new XMLGregorianCalendar", "");
-        }
     }
 
     /**
@@ -62,8 +42,6 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
      *
      * @param collectionPid The PID of the collection in which we are looking
      *                      for changes.
-     * @param entryCMPid    The PID of the content model which all listed
-     *                      records should adhere to.
      * @param viewAngle     ...TODO doc
      * @param beginTime     The time since which we are looking for changes.
      * @param state         ...TODO doc
@@ -75,69 +53,117 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
     public List<PidDatePidPid> listObjectsChangedSince(
             @WebParam(name = "collectionPid", targetNamespace = "")
             String collectionPid,
-            @WebParam(name = "entryCMPid", targetNamespace = "")
-            String entryCMPid,
             @WebParam(name = "viewAngle", targetNamespace = "")
             String viewAngle,
             @WebParam(name = "beginTime", targetNamespace = "")
-            XMLGregorianCalendar beginTime,
+            long beginTime,
             @WebParam(name = "state", targetNamespace = "")
-            String state)
-            throws InvalidCredentialsException,MethodFailedException
+            String state,
+            @WebParam(name = "offset", targetNamespace = "") Integer offset,
+            @WebParam(name = "limit", targetNamespace = "") Integer limit)
+
+
+            throws InvalidCredentialsException, MethodFailedException
 
     {
 
-        // TODO Un-mockup this class please :-)
+        return getModifiedObjects(collectionPid,
+                                  viewAngle,
+                                  beginTime,
+                                  state,
+                                  offset,
+                                  limit,
+                                  false);
+    }
 
+    public List<PidDatePidPid> getModifiedObjects(String collectionPid,
+                                                  String viewAngle,
+                                                  long beginTime,
+                                                  String state,
+                                                  Integer offset,
+                                                  Integer limit,
+                                                  boolean reverse
+    )
+            throws InvalidCredentialsException, MethodFailedException {
         List<PidDatePidPid> result = new ArrayList<PidDatePidPid>();
 
-        // Mockup: If wanted beginTime is AFTER our hardcoded lastChangedTime,
-        // we just return no objects/views/records at all.
-        if (beginTime.toGregorianCalendar().after(
-                lastChangedTime.toGregorianCalendar())) {
-            return result;
-        }
-        // Mockup: If wanted beginTime is BEFORE (or =) our hardcoded
-        // lastChangedTime, connect to ECM and get a list of all entry objects
-        // in (hardcoded:) our RadioTVCollection. Return all these.
-
-        String pidOfCollection = "doms:RadioTV_Collection";
         List<String> allEntryObjectsInRadioTVCollection;
-        ECM ecmConnector;
-        try {
-            ecmConnector = new ECM(getCredentials(), "http://alhena:7980/ecm");
-        } catch (MalformedURLException e) {
-            throw new MethodFailedException("Malformed URL", "", e);
-        }
+        Fedora fedora;
+        String fedoralocation = ConfigCollection.getProperties().getProperty(
+                "dk.statsbiblioteket.doms.updatetracker.fedoralocation");
+        fedora = new Fedora(getCredentials(), fedoralocation);
 
-        // TODO Mockup by calling the getAllEntryObjectsInCollection method in
-        // ECM with collectionPID to get <PID, collectionPID, entryPID>.
 
         if (state == null) {
             state = "Published";
         }
         if (state.equals("Published")) {
-            state = "A";
+            state = "<fedora-model:Active>";
         } else if (state.equals("InProgress")) {
-            state = "I";
+            state = "<fedora-model:Inactive>";
         } else {
-            state = "A";
+            state = "<fedora-model:Active>";
         }
+
+        String query = "select $object $cm $date\n"
+                       + "from <#ri>\n"
+                       + "where\n"
+                       + "$object <fedora-model:hasModel> $cm\n"
+                       + "and\n"
+                       + "$cm <http://ecm.sourceforge.net/relations/0/2/#isEntryForViewAngle> '"
+                       + viewAngle + "'\n"
+                       + "and\n"
+                       + "$object <http://doms.statsbiblioteket.dk/relations/default/0/1/#isPartOfCollection> <info:fedora/"
+                       + collectionPid + ">\n"
+                       + "and\n"
+                       + "$object <fedora-model:state> " + state + "\n"
+                       + "and\n"
+                       + "$object <fedora-view:lastModifiedDate> $date \n";
+
+
+        if (beginTime != 0){
+            String beginTimeDate
+                    = fedoraFormat.format(new Date(beginTime));
+            query = query + "and \n $date <mulgara:after> '"+beginTimeDate+"'^^<xml-schema:dateTime> in <#xsd> \n";
+        }
+
+
+        if (reverse){
+            query = query + "order by $date desc";
+        } else {
+            query = query + "order by $date asc";
+        }
+
+        if (limit != 0) {
+            query = query + "\n limit " + limit;
+        }
+        if (offset != 0) {
+            query = query + "\n offset " + offset;
+        }
+
 
         try {
             allEntryObjectsInRadioTVCollection
-                    = ecmConnector.getAllEntryObjectsInCollection(
-                    pidOfCollection, viewAngle, entryCMPid, state);
+                    = fedora.query(query);
         } catch (BackendInvalidCredsException e) {
             throw new InvalidCredentialsException("Invalid credentials", "", e);
         } catch (BackendMethodFailedException e) {
             throw new MethodFailedException("Method failed", "", e);
         }
 
-        for (String pid : allEntryObjectsInRadioTVCollection) {
+        for (String line : allEntryObjectsInRadioTVCollection) {
             PidDatePidPid objectThatChanged = new PidDatePidPid();
+            String[] splitted = line.split(",");
+            String pid = splitted[0];
+            String entryCMPid = splitted[1];
+            String lastModifiedFedoraDate = splitted[2];
             objectThatChanged.setPid(pid);
-            objectThatChanged.setLastChangedTime(lastChangedTime);
+            try {
+                objectThatChanged.setLastChangedTime(fedoraFormat.parse(
+                        lastModifiedFedoraDate).getTime());
+            } catch (ParseException e) {
+                throw new MethodFailedException("Failed to parse date for object",e.getMessage(),e);
+            }
             objectThatChanged.setCollectionPid(collectionPid);
             objectThatChanged.setEntryCMPid(entryCMPid);
 
@@ -153,23 +179,34 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
      *
      * @param collectionPid The PID of the collection in which we are looking
      *                      for the last change.
-     * @param entryCMPid    The PID of the entry object of the content model
-     *                      which our changed record should adhere to.
      * @param viewAngle     ...TODO doc
      * @return The date/time of the last change.
      * @throws InvalidCredentialsException
      * @throws MethodFailedException
      */
-    public XMLGregorianCalendar getLatestModificationTime(
+    public long getLatestModificationTime(
             @WebParam(name = "collectionPid", targetNamespace = "")
-            String collectionPid,
-            @WebParam(name = "entryCMPid", targetNamespace = "")
-            String entryCMPid,
+            java.lang.String collectionPid,
             @WebParam(name = "viewAngle", targetNamespace = "")
-            String viewAngle)
-            throws InvalidCredentialsException, MethodFailedException {
+            java.lang.String viewAngle,
+            @WebParam(name = "state", targetNamespace = "")
+            java.lang.String state)
+            throws InvalidCredentialsException, MethodFailedException
+    {
 
-        return lastChangedTime;
+        List<PidDatePidPid> lastChanged = getModifiedObjects(collectionPid,
+                                                             viewAngle,
+                                                             0,
+                                                             state,
+                                                             0,
+                                                             1,
+                                                             true);
+
+        if (!lastChanged.isEmpty()){
+            return lastChanged.get(0).getLastChangedTime();
+        } else {
+            throw new MethodFailedException("Did not find any elements in the collection","No elements in the collection");
+        }
     }
 
     /**
