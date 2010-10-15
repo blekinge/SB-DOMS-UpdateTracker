@@ -124,7 +124,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
         if (beginTime != 0){
             String beginTimeDate
                     = fedoraFormat.format(new Date(beginTime));
-            query = query + "$date <mulgara:after> '"+beginTimeDate+"'^^<xml-schema:dateTime> in <#xsd> \n";
+            query = query + "and \n $date <mulgara:after> '"+beginTimeDate+"'^^<xml-schema:dateTime> in <#xsd> \n";
         }
 
 
