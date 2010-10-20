@@ -1,5 +1,5 @@
 <!--
-  ~ Doms build framework version 1.0.10
+  ~ Doms build framework version 1.0.12
   ~
   ~ $Id$
   ~ $Revision$
@@ -180,9 +180,9 @@
     </target>
 
 
-
     <target name="release.src" depends="distclean">
         <mkdir dir="${global.dir}/dist"/>
+
 
         <zip destfile="dist/${dist.src.zip}">
             <zipfileset prefix="${dist.name}" dir=".">
@@ -190,12 +190,28 @@
                 <exclude name="out/**"/>
             </zipfileset>
         </zip>
+
+        <dependsloop target="sourcezip" dependencies="project.modules"/>
+        <copy todir="dist">
+            <fileset dir="${global.dir}/modules">
+                <include name="**/dist/**/*src.zip"/>
+            </fileset>
+            <chainedmapper>
+                <flattenmapper/>
+<!--
+                <mapper type="glob" from="*-src.zip" to="*-${version}-src.zip"/>
+-->
+            </chainedmapper>
+        </copy>
+
     </target>
 
     <target name="release" depends="release.src,release.bin,release.doc">
         <zip destfile="dist/${dist.zip}">
             <zipgroupfileset file="dist/${dist.bin.zip}"/>
-            <zipfileset file="dist/${dist.src.zip}" prefix="${dist.name}/src"/>
+            <zipfileset dir="dist" prefix="${dist.name}/src">
+                <include name="*-src.zip"/>
+            </zipfileset>
             <zipfileset file="dist/${dist.doc.zip}"
                         prefix="${dist.name}/apidocs"/>
         </zip>
