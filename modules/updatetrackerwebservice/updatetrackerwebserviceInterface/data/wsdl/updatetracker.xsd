@@ -41,14 +41,14 @@
     <xs:element name="listObjectsChangedSinceResponse" type="tns:pidDatePidPidList"/>
 
     <xs:element name="getLatestModificationTime" type="tns:pidPidAngleInput"/>
-    <xs:element name="getLatestModificationTimeResponse" type="tns:date"/>
+    <xs:element name="getLatestModificationTimeResponse" type="tns:long"/>
 
     <!--Simple types-->
     <xs:complexType name="pidPidAngleInput">
         <xs:sequence>
             <xs:element name="collectionPid" type="xs:string"/>
-            <xs:element name="entryCMPid" type="xs:string"/>
             <xs:element name="viewAngle" type="xs:string"/>
+            <xs:element name="state" type="xs:string"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -56,10 +56,12 @@
     <xs:complexType name="pidPidAngleDateString">
         <xs:sequence>
             <xs:element name="collectionPid" type="xs:string"/>
-            <xs:element name="entryCMPid" type="xs:string"/>
+            <!--            <xs:element name="entryCMPid" type="xs:string"/>-->
             <xs:element name="viewAngle" type="xs:string"/>
-            <xs:element name="beginTime" type="xs:date"/>
+            <xs:element name="beginTime" type="xs:long"/>
             <xs:element name="state" type="xs:string"/>
+            <xs:element name="offset" type="xs:int" minOccurs="0" nillable="true"/>
+            <xs:element name="limit" type="xs:int" minOccurs="0" nillable="true"/>
         </xs:sequence>
     </xs:complexType>
 
@@ -79,7 +81,7 @@
     <xs:complexType name="pidDatePidPid">
         <xs:sequence>
             <xs:element name="pid" type="xs:string"/>
-            <xs:element name="lastChangedTime" type="xs:date"/>
+            <xs:element name="lastChangedTime" type="xs:long"/>
             <xs:element name="collectionPid" type="xs:string"/>
             <xs:element name="entryCMPid" type="xs:string"/>
         </xs:sequence>
