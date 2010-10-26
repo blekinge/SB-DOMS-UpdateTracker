@@ -49,7 +49,7 @@
     <!--Project libs used by this module-->
     <dirset id="project.libs" dir="${global.dir}/lib/">
         <include name="${domsutil.lib}"/>
-        <include name="${sbutils.lib}"/>
+        <include name="${sbutil.lib}"/>
         <include name="${jaxws-ri.lib}"/>
         <include name="${commons-logging.lib}"/>
         <include name="${saxon.lib}"/>
