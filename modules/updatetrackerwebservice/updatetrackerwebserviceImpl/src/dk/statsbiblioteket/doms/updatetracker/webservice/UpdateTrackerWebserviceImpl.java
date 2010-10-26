@@ -152,20 +152,28 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
         }
 
         for (String line : allEntryObjectsInRadioTVCollection) {
-            PidDatePidPid objectThatChanged = new PidDatePidPid();
             String[] splitted = line.split(",");
+            String lastModifiedFedoraDate = splitted[2];
+            long lastChangedTime;
+            try {
+                lastChangedTime = fedoraFormat.parse(
+                        lastModifiedFedoraDate).getTime();
+                if (lastChangedTime < beginTime) {
+                    continue;
+                }
+            } catch (ParseException e) {
+                throw new MethodFailedException(
+                        "Failed to parse date for object",
+                        e.getMessage(),
+                        e);
+            }
+            PidDatePidPid objectThatChanged = new PidDatePidPid();
             String pid = splitted[0];
             String entryCMPid = splitted[1];
-            String lastModifiedFedoraDate = splitted[2];
             objectThatChanged.setPid(pid);
-            try {
-                objectThatChanged.setLastChangedTime(fedoraFormat.parse(
-                        lastModifiedFedoraDate).getTime());
-            } catch (ParseException e) {
-                throw new MethodFailedException("Failed to parse date for object",e.getMessage(),e);
-            }
             objectThatChanged.setCollectionPid(collectionPid);
             objectThatChanged.setEntryCMPid(entryCMPid);
+            objectThatChanged.setLastChangedTime(lastChangedTime);
 
             result.add(objectThatChanged);
         }
