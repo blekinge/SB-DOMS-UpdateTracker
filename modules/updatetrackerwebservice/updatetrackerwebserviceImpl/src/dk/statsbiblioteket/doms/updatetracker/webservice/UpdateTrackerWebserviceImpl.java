@@ -158,7 +158,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
             String lastModifiedFedoraDate = splitted[2];
             long lastChangedTime;
             try {
-                lastModifiedFedoraDate = normalize(lastModifiedFedoraDate);
+                lastModifiedFedoraDate = normalizeFedoraDate(lastModifiedFedoraDate);
                 lastChangedTime = fedoraFormat.parse(
                         lastModifiedFedoraDate).getTime();
             } catch (ParseException e) {
@@ -186,11 +186,9 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
         return result;
     }
 
-    private String normalize(String lastModifiedFedoraDate) {
+    private String normalizeFedoraDate(String lastModifiedFedoraDate) {
         if (lastModifiedFedoraDate.matches(".*\\.d{3}Z$")){
             return lastModifiedFedoraDate;
-        } else if (lastModifiedFedoraDate.matches(".*\\.\\d{2}Z$")){
-            return lastModifiedFedoraDate.substring(0,lastModifiedFedoraDate.length()-1)+0+"Z";
         } else if (lastModifiedFedoraDate.matches(".*\\.\\d{2}Z$")){
             return lastModifiedFedoraDate.substring(0,lastModifiedFedoraDate.length()-1)+"0Z";
         }else if (lastModifiedFedoraDate.matches(".*\\.\\d{1}Z$")){
