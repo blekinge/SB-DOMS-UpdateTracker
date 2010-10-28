@@ -31,6 +31,8 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
 
     private DateFormat fedoraFormat = new SimpleDateFormat(
             "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+    private DateFormat alternativefedoraFormat = new SimpleDateFormat(
+            "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
     public UpdateTrackerWebserviceImpl() throws MethodFailedException {
 
@@ -156,17 +158,20 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
             String lastModifiedFedoraDate = splitted[2];
             long lastChangedTime;
             try {
+                lastModifiedFedoraDate = normalizeFedoraDate(lastModifiedFedoraDate);
                 lastChangedTime = fedoraFormat.parse(
                         lastModifiedFedoraDate).getTime();
-                if (lastChangedTime < beginTime) {
-                    continue;
-                }
             } catch (ParseException e) {
                 throw new MethodFailedException(
                         "Failed to parse date for object",
                         e.getMessage(),
                         e);
             }
+
+            if (lastChangedTime < beginTime) {
+                continue;
+            }
+
             PidDatePidPid objectThatChanged = new PidDatePidPid();
             String pid = splitted[0];
             String entryCMPid = splitted[1];
@@ -179,6 +184,19 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
         }
 
         return result;
+    }
+
+    private String normalizeFedoraDate(String lastModifiedFedoraDate) {
+        if (lastModifiedFedoraDate.matches(".*\\.d{3}Z$")){
+            return lastModifiedFedoraDate;
+        } else if (lastModifiedFedoraDate.matches(".*\\.\\d{2}Z$")){
+            return lastModifiedFedoraDate.substring(0,lastModifiedFedoraDate.length()-1)+"0Z";
+        }else if (lastModifiedFedoraDate.matches(".*\\.\\d{1}Z$")){
+            return lastModifiedFedoraDate.substring(0,lastModifiedFedoraDate.length()-1)+"00Z";
+        }else if (lastModifiedFedoraDate.matches(".*:\\d\\dZ$")){
+            return lastModifiedFedoraDate.substring(0,lastModifiedFedoraDate.length()-1)+".000Z";
+        }
+        return lastModifiedFedoraDate;
     }
 
     /**
