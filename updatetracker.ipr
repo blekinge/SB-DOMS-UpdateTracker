@@ -362,8 +362,6 @@
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="file://$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceInterface/tempsrc" />
-        <root url="file://$PROJECT_DIR$/modules/updatetrackerwebservice/updatetrackerwebserviceImpl/src" />
         <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.11/src/webservice-common-src.zip!/" />
         <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.11/src/surveyable_impl-src.zip!/" />
         <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.11/src/surveyable_interface-src.zip!/" />
@@ -421,6 +419,15 @@
       <JAVADOC />
       <SOURCES>
         <root url="jar://$PROJECT_DIR$/lib/servlet-api-2.5-apache-tomcat-6.0.20/src/servlet-api-2.5-apache-tomcat-6.0.20-src.zip!/" />
+      </SOURCES>
+    </library>
+    <library name="logging">
+      <CLASSES>
+        <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.1.1/jars/commons-logging-1.1.1.jar!/" />
+      </CLASSES>
+      <JAVADOC />
+      <SOURCES>
+        <root url="jar://$PROJECT_DIR$/lib/commons-logging-1.1.1/src/commons-logging-1.1.1-sources.jar!/" />
       </SOURCES>
     </library>
   </component>
