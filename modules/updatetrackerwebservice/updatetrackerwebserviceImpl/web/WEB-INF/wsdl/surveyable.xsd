@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!--
+  ~ $Id: surveyable.xsd 416 2010-04-27 13:10:28Z kchristiansen $
+  ~ $Revision: 416 $
+  ~ $Date: 2010-04-27 15:10:28 +0200 (Tue, 27 Apr 2010) $
+  ~ $Author: kchristiansen $
+  ~
+  ~ The DOMS project.
+  ~ Copyright (C) 2007-2010  The State and University Library
+  ~
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<xs:schema version="1.0"
+           targetNamespace="http://surveyable.domsutil.doms.statsbiblioteket.dk/" xmlns:tns="http://surveyable.domsutil.doms.statsbiblioteket.dk/" xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+           jaxb:version="1.0"
+           xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc"
+           jaxb:extensionBindingPrefixes="xjc">
+    <xs:annotation>
+      <xs:appinfo>
+        <jaxb:globalBindings>
+          <xjc:simple />
+        </jaxb:globalBindings>
+      </xs:appinfo>
+    </xs:annotation>
+
+  <xs:element name="getStatus" type="tns:getStatus"/>
+
+  <xs:element name="getStatusResponse" type="tns:getStatusResponse"/>
+
+  <xs:element name="getStatusSince" type="tns:getStatusSince"/>
+
+  <xs:element name="getStatusSinceResponse" type="tns:getStatusSinceResponse"/>
+
+  <xs:element name="severity" type="tns:severity"/>
+
+  <xs:element name="status" type="tns:status"/>
+
+  <xs:element name="statusMessage" type="tns:statusMessage"/>
+
+  <xs:complexType name="getStatus">
+    <xs:sequence/>
+  </xs:complexType>
+
+  <xs:complexType name="getStatusResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:status" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="status">
+    <xs:sequence>
+      <xs:element name="messages" type="tns:statusMessage" minOccurs="0" maxOccurs="unbounded"/>
+      <xs:element name="name" type="xs:string" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="statusMessage">
+    <xs:sequence>
+      <xs:element name="logMessage" type="xs:boolean"/>
+      <xs:element name="message" type="xs:string" minOccurs="0"/>
+      <xs:element name="severity" type="tns:severity" minOccurs="0"/>
+      <xs:element name="time" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getStatusSince">
+    <xs:sequence>
+      <xs:element name="arg0" type="xs:long"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="getStatusSinceResponse">
+    <xs:sequence>
+      <xs:element name="return" type="tns:status" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:simpleType name="severity">
+    <xs:restriction base="xs:string">
+      <xs:enumeration value="GREEN"/>
+      <xs:enumeration value="YELLOW"/>
+      <xs:enumeration value="RED"/>
+    </xs:restriction>
+  </xs:simpleType>
+</xs:schema>
+
