@@ -4,10 +4,9 @@ import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.UniformInterfaceException;
 import com.sun.jersey.api.client.WebResource;
-import dk.statsbiblioteket.doms.webservices.Base64;
-import dk.statsbiblioteket.doms.webservices.Credentials;
+import dk.statsbiblioteket.doms.webservices.authentication.Base64;
+import dk.statsbiblioteket.doms.webservices.authentication.Credentials;
 
-import java.lang.String;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +26,7 @@ public class Fedora {
     protected java.lang.String location;
 
 
-    public Fedora(Credentials creds, String ecmLocation) {
+    public Fedora(Credentials creds, java.lang.String ecmLocation) {
         credentials = creds;
         location = ecmLocation;
 
@@ -35,19 +34,19 @@ public class Fedora {
         restApi = client.resource(location);
     }
 
-    protected String credsAsBase64(){
-        String preBase64 = credentials.getUsername() + ":"
+    protected java.lang.String credsAsBase64(){
+        java.lang.String preBase64 = credentials.getUsername() + ":"
                            + credentials.getPassword();
-        String base64 = Base64.encodeBytes(preBase64.getBytes());
+        java.lang.String base64 = Base64.encodeBytes(preBase64.getBytes());
         return "Basic " + base64;
     }
 
 
-    public List<String> query(String query)
+    public List<java.lang.String> query(java.lang.String query)
             throws BackendInvalidCredsException, BackendMethodFailedException {
         //TODO sanitize label
         try {
-            String objects = restApi
+            java.lang.String objects = restApi
                     .path("/risearch")
                     .queryParam("type", "tuples")
                     .queryParam("lang", "iTQL")
@@ -56,10 +55,10 @@ public class Fedora {
                     .queryParam("stream","on")
                     .queryParam("query", query)
                     .header("Authorization", credsAsBase64())
-                    .post(String.class);
-            String[] lines = objects.split("\n");
-            List<String> foundobjects = new ArrayList<String>();
-            for (String line : lines) {
+                    .post(java.lang.String.class);
+            java.lang.String[] lines = objects.split("\n");
+            List<java.lang.String> foundobjects = new ArrayList<java.lang.String>();
+            for (java.lang.String line : lines) {
                 if (line.startsWith("\"")){
                     continue;
                 }

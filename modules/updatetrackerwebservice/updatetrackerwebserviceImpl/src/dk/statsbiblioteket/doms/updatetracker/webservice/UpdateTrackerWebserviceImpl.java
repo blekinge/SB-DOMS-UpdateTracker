@@ -1,7 +1,7 @@
 package dk.statsbiblioteket.doms.updatetracker.webservice;
 
-import dk.statsbiblioteket.doms.webservices.ConfigCollection;
-import dk.statsbiblioteket.doms.webservices.Credentials;
+import dk.statsbiblioteket.doms.webservices.authentication.Credentials;
+import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
 
 import javax.annotation.Resource;
 import javax.jws.WebParam;
@@ -13,8 +13,9 @@ import java.lang.String;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Update tracker webservice. Provides upper layers of DOMS with info on changes
