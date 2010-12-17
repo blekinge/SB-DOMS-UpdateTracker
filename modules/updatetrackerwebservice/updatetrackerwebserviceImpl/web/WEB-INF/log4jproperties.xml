@@ -70,7 +70,7 @@
     </appender>
 
 
-    <logger name="dk.statsbiblioteket.doms.central">
+    <logger name="dk.statsbiblioteket.doms.updatetracker">
         <level value="ALL"/>
         <appender-ref ref="DomsUpdateTrackerRegistry"/>
         <appender-ref ref="DomsUpdateTrackerFile"/>
