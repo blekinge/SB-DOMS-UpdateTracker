@@ -118,14 +118,14 @@
                     dk.statsbiblioteket.doms.webservices.logging.Log4JInitServlet.log4jConfigurationPropertyKey
                 </param-name>
                 <param-value>
-                    dk.statsbiblioteket.doms.central.log4jconfig
+                    dk.statsbiblioteket.doms.updatetracker.log4jconfig
                 </param-value>
             </init-param>
             <load-on-startup>1</load-on-startup>
         </servlet>
         <context-param>
             <description>The location of the log4j config file</description>
-            <param-name>dk.statsbiblioteket.doms.central.log4jconfig</param-name>
+            <param-name>dk.statsbiblioteket.doms.updatetracker.log4jconfig</param-name>
             <param-value>WEB-INF/log4jproperties.xml</param-value>
         </context-param>
 
