@@ -25,7 +25,7 @@ public class RealTimeService implements Surveyable{
     private long timeOfGetStatusCall;
 
     /** The name of the system being surveyed by through this class. */
-    private static final String SURVEYEE_NAME = "UpdateTracker";
+    private static final String SURVEYEE_NAME = "DomsUpdateTracker";
 
     /** Will be called by the webservice framework after the call of the
      * constructor. Reads parameters from web.xml.
