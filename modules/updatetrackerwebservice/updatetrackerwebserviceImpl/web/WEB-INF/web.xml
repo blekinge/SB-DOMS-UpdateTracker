@@ -93,18 +93,28 @@
             <servlet-name>WSServletSurveyable</servlet-name>
             <url-pattern>/surveyable/*</url-pattern>
         </servlet-mapping>
-        <context-param>
-            <description>The class that will be exposed for surveillance
-            </description>
-            <param-name>
-                dk.statsbiblioteket.doms.domsutil.surveyable.surveyables
-            </param-name>
-            <param-value>
-                dk.statsbiblioteket.doms.updatetracker.webservice.surveillance.RealTimeService;
-                dk.statsbiblioteket.doms.domsutil.surveillance.logappender.CachingLogRegistry
-            </param-value>
-        </context-param>
+      <context-param>
+        <description>The class that will be exposed for surveillance
+        </description>
+        <param-name>
+            dk.statsbiblioteket.doms.domsutil.surveyable.surveyables
+        </param-name>
+        <param-value>
+            dk.statsbiblioteket.doms.domsutil.surveyable.RunningSurveyable;
+            dk.statsbiblioteket.doms.domsutil.surveillance.logappender.CachingLogRegistry
+        </param-value>
+    </context-param>
 
+    <context-param>
+        <description>The name of the service for surveillance purposes
+        </description>
+        <param-name>
+                dk.statsbiblioteket.doms.surveillance.logappender.LoggerName
+        </param-name>
+        <param-value>
+            DomsUpdateTracker
+        </param-value>
+    </context-param>
 
 
     <!--This servlet is used only to load on startup, and configure the logging framework.-->
