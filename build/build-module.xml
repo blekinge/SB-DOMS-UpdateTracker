@@ -1,5 +1,5 @@
 <!--
-  ~ Doms build framework version 1.0.12
+  ~ Doms build framework version 1.0.13
   ~
   ~ $Id$
   ~ $Revision$
@@ -131,15 +131,20 @@
 
 
     <target name="_copyLibsForDist" depends="_copyLicensesForDist">
-        <!--
-                <convertPath dirset="project.libs"
-                             postfix="/**/*"
-                             newfileset="project.libs.all"/>
-        -->
+
+
+        <convertPath dirset="project.libs"
+                     postfix="/jars/*.jar"
+                     newfileset="project.libs.jars"/>
+
+        <convertPath dirset="module.libs"
+                        postfix="/jars/*.jar"
+                        newfileset="module.libs.jars"/>
 
 
         <copy todir="${global.dir}/temp/usedlibs" overwrite="false">
-            <dirset refid="project.libs"/>
+            <fileset refid="project.libs.jars"/>
+                        <fileset refid="module.libs.jars"/>
         </copy>
     </target>
 

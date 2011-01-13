@@ -1,5 +1,5 @@
 /*
- * Doms build framework version 1.0.12
+ * Doms build framework version 1.0.13
  *
  * $Id$
  * $Revision$

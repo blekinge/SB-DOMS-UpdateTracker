@@ -1,5 +1,5 @@
 <!--
-  ~ Doms build framework version 1.0.12
+  ~ Doms build framework version 1.0.13
   ~
   ~ $Id$
   ~ $Revision$
@@ -103,6 +103,7 @@
         <mkdir dir="temp/licensestemp"/>
         <mkdir dir="temp/usedlibs"/>
         <mkdir dir="temp/datatemp"/>
+        <mkdir dir="temp/packagetemp"/>
         <!--
                 <mkdir dir="temp/wartemp"/>
         -->
@@ -120,6 +121,11 @@
         <convertPath dirset="project.modules"
                      postfix="/dist/**/*.war"
                      newfileset="project.modules.wars"/>
+
+        <!--The list of produces executables-->
+        <convertPath dirset="project.modules"
+                     postfix="/dist/**/*-bin.zip"
+                     newfileset="project.modules.packages"/>
 
         <!--The list of licenses from the individual modules-->
         <convertPath dirset="project.modules"
@@ -142,6 +148,10 @@
             <fileset refid="project.modules.wars"/>
         </copy>
 
+        <copy todir="temp/packagetemp" flatten="true" failonerror="false">
+            <fileset refid="project.modules.packages"/>
+        </copy>
+
         <copy todir="temp/licensestemp">
             <fileset refid="project.modules.licenses"/>
             <fileset dir="temp/usedlibs/">
@@ -154,12 +164,13 @@
             <fileset refid="project.modules.data"/>
             <regexpmapper from="(.*)/data(/.*)" to="\1\2"/>
         </copy>
-                              
+
 
 
         <zip destfile="dist/${dist.bin.zip}">
             <zipfileset prefix="${dist.name}/jars" dir="temp/libtemp"/>
             <zipfileset prefix="${dist.name}/wars" dir="temp/wartemp" erroronmissingdir="false"/>
+            <zipfileset prefix="${dist.name}/packages" dir="temp/packagetemp" erroronmissingdir="false"/>
             <zipfileset prefix="${dist.name}/license" dir="temp/licensestemp"/>
             <zipfileset prefix="${dist.name}/license" dir="${global.dir}">
                 <include name="LICENSE"/>
@@ -176,8 +187,10 @@
         <delete dir="temp/usedlibs"/>
         <delete dir="temp/datatemp"/>
         <delete dir="temp/wartemp"/>
+        <delete dir="temp/packagetemp"/>
 
     </target>
+
 
 
     <target name="release.src" depends="distclean">
