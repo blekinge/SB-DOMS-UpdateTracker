@@ -1,5 +1,5 @@
 <!--
-  ~ Doms build framework version 1.0.14
+  ~ Doms build framework version 1.0.15
   ~
   ~ $Id$
   ~ $Revision$
@@ -224,6 +224,7 @@
             <zipgroupfileset file="dist/${dist.bin.zip}"/>
             <zipfileset dir="dist" prefix="${dist.name}/src">
                 <include name="*-src.zip"/>
+                <exclude name="${dist.src.zip}"/>
             </zipfileset>
             <zipfileset file="dist/${dist.doc.zip}"
                         prefix="${dist.name}/apidocs"/>

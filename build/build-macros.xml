@@ -1,5 +1,5 @@
 <!--
-  ~ Doms build framework version 1.0.14
+  ~ Doms build framework version 1.0.15
   ~
   ~ $Id$
   ~ $Revision$
@@ -28,7 +28,7 @@
   -->
 
 <project name="macros">
-    <!--Part of doms build framework version 1.0.14-->
+    <!--Part of doms build framework version 1.0.15-->
 
 
     <property name="global.dir" value="${basedir}/.."/>
