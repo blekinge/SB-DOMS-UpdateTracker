@@ -1,5 +1,5 @@
 <!--
-  ~ Doms build framework version 1.0.12
+  ~ Doms build framework version 1.0.15
   ~
   ~ $Id$
   ~ $Revision$
@@ -28,7 +28,7 @@
   -->
 
 <project name="macros">
-    <!--Part of doms build framework version 1.0.12-->
+    <!--Part of doms build framework version 1.0.15-->
 
 
     <property name="global.dir" value="${basedir}/.."/>
@@ -39,11 +39,10 @@
     <property file="${my.basedir}/build-framework.properties"/>
 
 
-    <property name="jarfile" value="${ant.project.name}.jar"/>
-    <property name="srcpack.zip" value="${ant.project.name}-src.zip"/>
-    <property name="docspack.zip" value="${ant.project.name}-apidocs.zip"/>
-    <property name="execfile" value="${ant.project.name}-bin.zip"/>
-
+    <property name="jarfile" value="${ant.project.name}-${version}.jar"/>
+    <property name="srcpack.zip" value="${ant.project.name}-${version}-src.zip"/>
+    <property name="docspack.zip" value="${ant.project.name}-${version}-apidocs.zip"/>
+    <property name="execfile" value="${ant.project.name}-${version}-bin.zip"/>
 
 
     <path id="script.classpath">
@@ -77,9 +76,15 @@
     </scriptdef>
 
 
-
-
-
+    <macrodef name="loadSVNproperties">
+        <sequential>
+            <exec executable="svn" output="svn.temp.properties">
+                <arg value="info"/>
+            </exec>
+            <property prefix="svn" file="svn.temp.properties"/>
+            <delete file="svn.temp.properties"/>
+        </sequential>
+    </macrodef>
 
 
     <property name="warfilename" value="${ant.project.name}.war"/>
@@ -137,9 +142,25 @@
         <attribute name="jarfile"/>
         <sequential>
             <mkdir dir="dist"/>
+            <tstamp>
+                <format property="NOW" pattern="yyyyMMddHHmmss"/>
+            </tstamp>
+            <loadSVNproperties/>
+            
 
             <jar destfile="dist/@{jarfile}"
-                 basedir="classes"/>
+                 basedir="classes">
+                <manifest>
+                    <attribute name="Title" value="@{jarfile}"/>
+                    <attribute name="Built-by" value="${user.name}"/>
+                    <attribute name="Version" value="${version}"/>
+                    <attribute name="Svn-revision" value="${svn.Revision}"/>
+                    <attribute name="Svn-url" value="${svn.URL}"/>
+                    <attribute name="Build-date" value="${NOW}"/>
+                </manifest>
+
+
+            </jar>
         </sequential>
     </macrodef>
 
@@ -184,8 +205,6 @@
     </macrodef>
 
 
-
-
     <macrodef name="_copyLibsForDist" description="Copy all project libs used by
     this module to the usedlibs folder">
         <sequential>
@@ -226,6 +245,12 @@
             <copy todir="libtemp" flatten="true">
                 <path refid="@{jars.to.pack}"/>
             </copy>
+
+            <tstamp>
+                <format property="NOW" pattern="yyyyMMddHHmmss"/>
+            </tstamp>
+            <loadSVNproperties/>
+
             <war destfile="dist/@{warfilename}"
                  webxml="@{webxml}" duplicate="fail">
                 <!--                <classes dir="classes"/>-->
@@ -237,6 +262,15 @@
                 <webinf refid="@{web-inf}" prefix="WEB-INF"/>
                 <webinf dir="@{wsdl.dir}" prefix="WEB-INF/wsdl"
                         erroronmissingdir="false"/>
+                <manifest>
+
+                    <attribute name="Title" value="@{warfilename}"/>
+                    <attribute name="Built-by" value="${user.name}"/>
+                    <attribute name="Version" value="${version}"/>
+                    <attribute name="Svn-revision" value="${svn.Revision}"/>
+                    <attribute name="Build-date" value="${NOW}"/>
+
+                </manifest>
             </war>
             <delete dir="libtemp"/>
         </sequential>
@@ -273,10 +307,12 @@
                 <zipfileset dir="bin" erroronmissingdir="false" prefix="bin">
                     <include name="**/*"/>
                 </zipfileset>
-                <zipfileset dir="config" erroronmissingdir="false" prefix="config">
+                <zipfileset dir="config" erroronmissingdir="false"
+                            prefix="config">
                     <include name="**/*"/>
                 </zipfileset>
-                <zipfileset dir="data" erroronmissingdir="false" prefix="config">
+                <zipfileset dir="data" erroronmissingdir="false"
+                            prefix="config">
                     <include name="**/*"/>
                 </zipfileset>
                 <zipfileset dir="tempjars" erroronmissingdir="false"
