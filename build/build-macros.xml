@@ -142,6 +142,11 @@
         <attribute name="jarfile"/>
         <sequential>
             <mkdir dir="dist"/>
+            <tstamp>
+                <format property="NOW" pattern="yyyyMMddHHmmss"/>
+            </tstamp>
+            <loadSVNproperties/>
+            
 
             <jar destfile="dist/@{jarfile}"
                  basedir="classes">
@@ -151,7 +156,6 @@
                     <attribute name="Version" value="${version}"/>
                     <attribute name="Svn-revision" value="${svn.Revision}"/>
                     <attribute name="Svn-url" value="${svn.URL}"/>
-                    <attribute name="Svn-last-changed-rev" value="${svn.Last Changed Rev}"/>
                     <attribute name="Build-date" value="${NOW}"/>
                 </manifest>
 
