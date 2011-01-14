@@ -1,5 +1,5 @@
 /*
- * Doms build framework version 1.0.12
+ * Doms build framework version 1.0.15
  *
  * $Id: dependsforloop.js 279 2010-02-18 14:19:12Z blekinge $
  * $Revision: 279 $
