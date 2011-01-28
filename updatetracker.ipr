@@ -356,15 +356,15 @@
   <component name="libraryTable">
     <library name="domsutils">
       <CLASSES>
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.16/jars/webservice-common.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.16/jars/surveyable_impl.jar!/" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.16/jars/surveyable_interface.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.17/jars/webservice-common.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.17/jars/surveyable_impl.jar!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.17/jars/surveyable_interface.jar!/" />
       </CLASSES>
       <JAVADOC />
       <SOURCES>
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.16/src/webservice-common-src.zip!/" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.16/src/surveyable_impl-src.zip!/" />
-        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.16/src/surveyable_interface-src.zip!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.17/src/webservice-common-src.zip!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.17/src/surveyable_impl-src.zip!/" />
+        <root url="jar://$PROJECT_DIR$/lib/domsutil-0.0.17/src/surveyable_interface-src.zip!/" />
       </SOURCES>
     </library>
     <library name="jaxws">
