@@ -1,0 +1,19 @@
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>dk.statsbiblioteket.doms</groupId>
+        <artifactId>doms</artifactId>
+        <version>0.0.1</version>
+    </parent>
+
+    <groupId>dk.statsbiblioteket.doms.updatetracker</groupId>
+    <artifactId>updatetracker</artifactId>
+    <version>0.0.11#SNAPSHOT</version>
+
+
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>modules/updatetrackerwebservice</module>
+    </modules>
+</project>
