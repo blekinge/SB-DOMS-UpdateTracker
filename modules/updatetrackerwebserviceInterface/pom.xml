@@ -5,13 +5,12 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>dk.statsbiblioteket.doms.updatetracker.webservice</groupId>
-        <artifactId>updatetrackerwebservice</artifactId>
+        <groupId>dk.statsbiblioteket.doms.updatetracker</groupId>
+        <artifactId>updatetracker</artifactId>
         <version>0.0.11#SNAPSHOT</version>
     </parent>
 
-    <artifactId>updatetrackerwebserviceInterface</artifactId>
-
+    <artifactId>${parent.artifactId}-interface</artifactId>
 
     <build>
         <plugins>
@@ -24,17 +23,16 @@
                             <goal>wsimport</goal>
                         </goals>
                         <configuration>
-                            <wsdlDirectory>${basedir}/data/wsdl</wsdlDirectory>
                             <packageName>${groupId}</packageName>
-                            <sourceDestDir>tempsrc</sourceDestDir>
+                            <wsdlDirectory>src/main/resources/wsdl</wsdlDirectory>
                             <verbose>true</verbose>
-                            <xdebug>true</xdebug>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
     </build>
+
 
     
 </project>

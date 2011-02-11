@@ -7,10 +7,10 @@ import java.lang.*;
 import java.lang.String;
 
 /*
- * $Id$
- * $Revision$
- * $Date$
- * $Author$
+ * $Id: PidList.java 792 2010-09-27 12:41:56Z blekinge $
+ * $Revision: 792 $
+ * $Date: 2010-09-27 14:41:56 +0200 (Mon, 27 Sep 2010) $
+ * $Author: blekinge $
  *
  * The DOMS project.
  * Copyright (C) 2007-2010  The State and University Library

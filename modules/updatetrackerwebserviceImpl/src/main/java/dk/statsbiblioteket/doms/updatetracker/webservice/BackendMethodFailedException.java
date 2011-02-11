@@ -4,10 +4,10 @@ import com.sun.jersey.api.client.UniformInterfaceException;
 
 import java.lang.*;
 import java.lang.String;
-/* $Id$
- * $Revision$
- * $Date$
- * $Author$
+/* $Id: BackendMethodFailedException.java 769 2010-09-24 14:41:24Z jrgatsb $
+ * $Revision: 769 $
+ * $Date: 2010-09-24 16:41:24 +0200 (Fri, 24 Sep 2010) $
+ * $Author: jrgatsb $
  *
  * The DOMS project.
  * Copyright (C) 2007-2009  The State and University Library
@@ -30,12 +30,12 @@ import java.lang.String;
  * under the License.
  */
 
-public class BackendInvalidCredsException extends Exception {
-    public BackendInvalidCredsException(String s) {
+public class BackendMethodFailedException extends Exception {
+    public BackendMethodFailedException(String s) {
         super(s);
     }
 
-    public BackendInvalidCredsException(String s, Throwable throwable) {
+    public BackendMethodFailedException(String s, Throwable throwable) {
         super(s, throwable);
     }
 }
