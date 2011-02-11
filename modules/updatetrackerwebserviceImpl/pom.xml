@@ -58,6 +58,8 @@
         <dependency>
             <groupId>net.sourceforge.saxon</groupId>
             <artifactId>saxon</artifactId>
+            <classifier>dom</classifier>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>com.sun.xml.ws</groupId>
