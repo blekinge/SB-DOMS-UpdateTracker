@@ -8,13 +8,13 @@
 
     <groupId>dk.statsbiblioteket.doms.updatetracker</groupId>
     <artifactId>updatetracker</artifactId>
-    <version>0.0.12</version>
+    <version>0.0.13-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <scm>
-        <connection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/updatetracker/tags/updatetracker-0.0.12</connection>
-        <developerConnection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/updatetracker/tags/updatetracker-0.0.12</developerConnection>
-        <url>http://doms.svn.sourceforge.net/viewvc/doms/updatetracker/tags/updatetracker-0.0.12</url>
+        <connection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/updatetracker/trunk</connection>
+        <developerConnection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/updatetracker/trunk</developerConnection>
+        <url>http://doms.svn.sourceforge.net/viewvc/doms/updatetracker/trunk</url>
     </scm>
 
 
