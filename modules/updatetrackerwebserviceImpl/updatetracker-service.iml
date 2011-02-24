@@ -22,7 +22,8 @@
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/dependency-maven-plugin-markers" />
       <excludeFolder url="file://$MODULE_DIR$/target/maven-archiver" />
-      <excludeFolder url="file://$MODULE_DIR$/target/updatetracker-service-0.0.11-SNAPSHOT" />
+      <excludeFolder url="file://$MODULE_DIR$/target/updatetracker-service-0.0.12" />
+      <excludeFolder url="file://$MODULE_DIR$/target/updatetracker-service-0.0.13-SNAPSHOT" />
       <excludeFolder url="file://$MODULE_DIR$/target/war" />
       <excludeFolder url="file://$MODULE_DIR$/target/wsdl" />
     </content>

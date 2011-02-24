@@ -1,4 +1,4 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>dk.statsbiblioteket.doms</groupId>
@@ -8,13 +8,13 @@
 
     <groupId>dk.statsbiblioteket.doms.updatetracker</groupId>
     <artifactId>updatetracker</artifactId>
-    <version>0.0.12-SNAPSHOT</version>
+    <version>0.0.13</version>
     <packaging>pom</packaging>
 
     <scm>
-        <connection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/${artifactId}/trunk</connection>
-        <developerConnection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/${artifactId}/trunk</developerConnection>
-        <url>http://doms.svn.sourceforge.net/viewvc/doms/${artifactId}/trunk</url>
+        <connection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/updatetracker/tags/updatetracker-0.0.13</connection>
+        <developerConnection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/updatetracker/tags/updatetracker-0.0.13</developerConnection>
+        <url>http://doms.svn.sourceforge.net/viewvc/doms/updatetracker/tags/updatetracker-0.0.13</url>
     </scm>
 
 

@@ -3,12 +3,12 @@
   <component name="ArtifactManager">
     <artifact type="war" name="updatetracker-service:war">
       <output-path>$PROJECT_DIR$/modules/updatetrackerwebserviceImpl/target</output-path>
-      <root id="archive" name="updatetracker-service-0.0.12-SNAPSHOT.war">
+      <root id="archive" name="updatetracker-service-0.0.13-SNAPSHOT.war">
         <element id="artifact" artifact-name="updatetracker-service:war exploded" />
       </root>
     </artifact>
     <artifact type="exploded-war" name="updatetracker-service:war exploded">
-      <output-path>$PROJECT_DIR$/modules/updatetrackerwebserviceImpl/target/updatetracker-service-0.0.12-SNAPSHOT</output-path>
+      <output-path>$PROJECT_DIR$/modules/updatetrackerwebserviceImpl/target/updatetracker-service-0.0.13-SNAPSHOT</output-path>
       <root id="root">
         <element id="javaee-facet-resources" facet="updatetracker-service/web/Web" />
         <element id="directory" name="WEB-INF">
@@ -42,7 +42,7 @@
             <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.1.1" />
             <element id="library" level="project" name="Maven: dk.statsbiblioteket.doms.domsutil.surveyable:domsutil-surveyable-interface:0.0.20" />
             <element id="library" level="project" name="Maven: dk.statsbiblioteket.doms.domsutil.surveyable:domsutil-surveyable-impl:0.0.20" />
-            <element id="archive" name="updatetracker-interface-0.0.12-SNAPSHOT.jar">
+            <element id="archive" name="updatetracker-interface-0.0.13-SNAPSHOT.jar">
               <element id="module-output" name="updatetracker-interface" />
             </element>
           </element>
@@ -117,6 +117,9 @@
     <option name="SKIP_IMPORT_STATEMENTS" value="false" />
   </component>
   <component name="Encoding" useUTFGuessing="true" native2AsciiForPropertiesFiles="false" />
+  <component name="EntryPointsManager">
+    <entry_points version="2.0" />
+  </component>
   <component name="FacetAutodetectingManager">
     <autodetection-disabled>
       <facet-type id="web">
