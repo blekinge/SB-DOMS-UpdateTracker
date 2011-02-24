@@ -3,15 +3,20 @@
     <parent>
         <groupId>dk.statsbiblioteket.doms</groupId>
         <artifactId>doms</artifactId>
-        <version>0.0.1</version>
+        <version>0.1.1</version>
     </parent>
 
     <groupId>dk.statsbiblioteket.doms.updatetracker</groupId>
     <artifactId>updatetracker</artifactId>
-    <version>0.0.11#SNAPSHOT</version>
-
-
+    <version>0.0.12-SNAPSHOT</version>
     <packaging>pom</packaging>
+
+    <scm>
+        <connection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/${artifactId}/trunk</connection>
+        <developerConnection>scm:svn:https://doms.svn.sourceforge.net/svnroot/doms/${artifactId}/trunk</developerConnection>
+        <url>http://doms.svn.sourceforge.net/viewvc/doms/${artifactId}/trunk</url>
+    </scm>
+
 
     <modules>
         <module>modules/updatetrackerwebserviceImpl</module>
@@ -23,7 +28,7 @@
             <dependency>
                 <groupId>dk.statsbiblioteket.doms.domsutil</groupId>
                 <artifactId>domsutil-bundle</artifactId>
-                <version>0.0.17</version>
+                <version>0.0.20</version>
                 <type>pom</type>
             </dependency>
             <dependency>

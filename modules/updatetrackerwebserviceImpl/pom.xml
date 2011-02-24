@@ -7,7 +7,7 @@
     <parent>
         <groupId>dk.statsbiblioteket.doms.updatetracker</groupId>
         <artifactId>updatetracker</artifactId>
-        <version>0.0.11#SNAPSHOT</version>
+        <version>0.0.12-SNAPSHOT</version>
     </parent>
 
     <artifactId>${parent.artifactId}-service</artifactId>
@@ -40,7 +40,7 @@
                         <phase>generate-sources</phase>
                         <configuration>
                             <includeGroupIds>dk.statsbiblioteket.doms.domsutil,${groupId}</includeGroupIds>
-                            <includeArtifactIds>domsutil-surveyable_interface,${parent.artifactId}-interface</includeArtifactIds>
+                            <includeArtifactIds>domsutil-surveyable-interface,${parent.artifactId}-interface</includeArtifactIds>
                             <includes>wsdl/*</includes>
                             <outputDirectory>${project.build.directory}/wsdl</outputDirectory>
                         </configuration>
