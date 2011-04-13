@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.doms.updatetracker.webservice;
+package dk.statsbiblioteket.doms.updatetracker;
 
 import com.sun.jersey.api.client.UniformInterfaceException;
 

@@ -1,15 +1,8 @@
-package dk.statsbiblioteket.doms.updatetracker.webservice;
+package dk.statsbiblioteket.doms.updatetracker;
 
 import dk.statsbiblioteket.doms.webservices.authentication.Credentials;
 import dk.statsbiblioteket.doms.webservices.configuration.ConfigCollection;
 
-import javax.annotation.Resource;
-import javax.jws.WebParam;
-import javax.jws.WebService;
-import javax.servlet.http.HttpServletRequest;
-import javax.xml.ws.WebServiceContext;
-import javax.xml.ws.handler.MessageContext;
-import java.lang.String;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -22,21 +15,18 @@ import java.util.List;
  * to objects in Fedora. Used by DOMS Server aka. Central to provide Summa with
  * said info.
  */
-@WebService(endpointInterface
-        = "dk.statsbiblioteket.doms.updatetracker.webservice"
-          + ".UpdateTrackerWebservice")
-public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
+public class UpdateTrackerImpl {
 
-    @Resource
-    WebServiceContext context;
 
     private DateFormat fedoraFormat = new SimpleDateFormat(
             "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
     private DateFormat alternativefedoraFormat = new SimpleDateFormat(
             "yyyy-MM-dd'T'HH:mm:ss'Z'");
+    private Credentials creds;
 
-    public UpdateTrackerWebserviceImpl() throws MethodFailedException {
-
+    public UpdateTrackerImpl(Credentials credentials) {
+        //To change body of created methods use File | Settings | File Templates.
+        creds = credentials;
     }
 
     /**
@@ -50,25 +40,15 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
      * @param state         ...TODO doc
      * @return returns java.util.List<dk.statsbiblioteket.doms.updatetracker
      *         .webservice.PidDatePidPid>
-     * @throws MethodFailedException
-     * @throws InvalidCredentialsException
      */
-    public List<PidDatePidPid> listObjectsChangedSince(
-            @WebParam(name = "collectionPid", targetNamespace = "")
+    public List<PidAndOther> listObjectsChangedSince(
             String collectionPid,
-            @WebParam(name = "viewAngle", targetNamespace = "")
             String viewAngle,
-            @WebParam(name = "beginTime", targetNamespace = "")
             long beginTime,
-            @WebParam(name = "state", targetNamespace = "")
             String state,
-            @WebParam(name = "offset", targetNamespace = "") Integer offset,
-            @WebParam(name = "limit", targetNamespace = "") Integer limit)
-
-
-            throws InvalidCredentialsException, MethodFailedException
-
-    {
+            Integer offset,
+            Integer limit)
+            throws BackendInvalidCredsException, BackendMethodFailedException {
 
         return getModifiedObjects(collectionPid,
                                   viewAngle,
@@ -79,22 +59,21 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
                                   false);
     }
 
-    public List<PidDatePidPid> getModifiedObjects(String collectionPid,
-                                                  String viewAngle,
-                                                  long beginTime,
-                                                  String state,
-                                                  Integer offset,
-                                                  Integer limit,
-                                                  boolean reverse
-    )
-            throws InvalidCredentialsException, MethodFailedException {
-        List<PidDatePidPid> result = new ArrayList<PidDatePidPid>();
+    public List<PidAndOther> getModifiedObjects(String collectionPid,
+                                                String viewAngle,
+                                                long beginTime,
+                                                String state,
+                                                Integer offset,
+                                                Integer limit,
+                                                boolean reverse)
+            throws BackendMethodFailedException, BackendInvalidCredsException {
+        List<PidAndOther> result = new ArrayList<PidAndOther>();
 
         List<String> allEntryObjectsInRadioTVCollection;
         Fedora fedora;
         String fedoralocation = ConfigCollection.getProperties().getProperty(
                 "dk.statsbiblioteket.doms.updatetracker.fedoralocation");
-        fedora = new Fedora(getCredentials(), fedoralocation);
+        fedora = new Fedora(creds, fedoralocation);
 
 
         if (state == null) {
@@ -145,14 +124,8 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
         }
 
 
-        try {
-            allEntryObjectsInRadioTVCollection
-                    = fedora.query(query);
-        } catch (BackendInvalidCredsException e) {
-            throw new InvalidCredentialsException("Invalid credentials", "", e);
-        } catch (BackendMethodFailedException e) {
-            throw new MethodFailedException("Method failed", "", e);
-        }
+        allEntryObjectsInRadioTVCollection
+                = fedora.query(query);
 
         for (String line : allEntryObjectsInRadioTVCollection) {
             String[] splitted = line.split(",");
@@ -163,9 +136,8 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
                 lastChangedTime = fedoraFormat.parse(
                         lastModifiedFedoraDate).getTime();
             } catch (ParseException e) {
-                throw new MethodFailedException(
+                throw new BackendMethodFailedException(
                         "Failed to parse date for object",
-                        e.getMessage(),
                         e);
             }
 
@@ -173,7 +145,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
                 continue;
             }
 
-            PidDatePidPid objectThatChanged = new PidDatePidPid();
+            PidAndOther objectThatChanged = new PidAndOther();
             String pid = splitted[0];
             String entryCMPid = splitted[1];
             objectThatChanged.setPid(pid);
@@ -208,49 +180,28 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
      *                      for the last change.
      * @param viewAngle     ...TODO doc
      * @return The date/time of the last change.
-     * @throws InvalidCredentialsException
-     * @throws MethodFailedException
      */
     public long getLatestModificationTime(
-            @WebParam(name = "collectionPid", targetNamespace = "")
-            java.lang.String collectionPid,
-            @WebParam(name = "viewAngle", targetNamespace = "")
-            java.lang.String viewAngle,
-            @WebParam(name = "state", targetNamespace = "")
-            java.lang.String state)
-            throws InvalidCredentialsException, MethodFailedException
+            String collectionPid,
+            String viewAngle,
+            String state) throws BackendInvalidCredsException, BackendMethodFailedException
+
     {
 
-        List<PidDatePidPid> lastChanged = getModifiedObjects(collectionPid,
-                                                             viewAngle,
-                                                             0,
-                                                             state,
-                                                             0,
-                                                             1,
-                                                             true);
+        List<PidAndOther> lastChanged = getModifiedObjects(collectionPid,
+                                                           viewAngle,
+                                                           0,
+                                                           state,
+                                                           0,
+                                                           1,
+                                                           true);
 
         if (!lastChanged.isEmpty()){
             return lastChanged.get(0).getLastChangedTime();
         } else {
-            throw new MethodFailedException("Did not find any elements in the collection","No elements in the collection");
+            throw new BackendMethodFailedException("Did not find any elements in the collection");
         }
     }
 
-    /**
-     * TODO doc
-     *
-     * @return TODO doc
-     */
-    private Credentials getCredentials() {
-        HttpServletRequest request = (HttpServletRequest) context
-                .getMessageContext()
-                .get(MessageContext.SERVLET_REQUEST);
-        Credentials creds = (Credentials) request.getAttribute("Credentials");
-        if (creds == null) {
-//            log.warn("Attempted call at Central without credentials");
-            creds = new Credentials("", "");
-        }
-        return creds;
-    }
 
 }

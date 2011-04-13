@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.doms.updatetracker.webservice;
+package dk.statsbiblioteket.doms.updatetracker;
 
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlElement;
