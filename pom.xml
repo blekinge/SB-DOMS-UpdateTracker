@@ -19,8 +19,9 @@
 
 
     <modules>
-        <module>modules/updatetrackerwebserviceImpl</module>
-        <module>modules/updatetrackerwebserviceInterface</module>
+        <module>modules/updatetracker-service</module>
+        <module>modules/updatetracker-impl</module>
+        <module>modules/updatetracker-interface</module>
     </modules>
 
     <dependencyManagement>
@@ -58,6 +59,11 @@
                 <artifactId>servlet-api</artifactId>
                 <version>2.5</version>
                 <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.derby</groupId>
+                <artifactId>derby</artifactId>
+                <version>10.7.1.1</version>
             </dependency>
 
         </dependencies>
