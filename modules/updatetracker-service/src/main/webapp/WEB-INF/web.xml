@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  ~ $Id: web.xml 1413 2010-12-21 10:03:54Z blekinge $
+  ~ $Revision: 1413 $
+  ~ $Date: 2010-12-21 11:03:54 +0100 (Tue, 21 Dec 2010) $
+  ~ $Author: blekinge $
+  ~
+  ~ The DOMS project.
+  ~ Copyright (C) 2007-2010  The State and University Library
+  ~
+  ~ Licensed to the Apache Software Foundation (ASF) under one
+  ~ or more contributor license agreements.  See the NOTICE file
+  ~ distributed with this work for additional information
+  ~ regarding copyright ownership.  The ASF licenses this file
+  ~ to you under the Apache License, Version 2.0 (the
+  ~ "License"); you may not use this file except in compliance
+  ~ with the License.  You may obtain a copy of the License at
+  ~
+  ~ http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~ Unless required by applicable law or agreed to in writing,
+  ~ software distributed under the License is distributed on an
+  ~ "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+  ~ KIND, either express or implied.  See the License for the
+  ~ specific language governing permissions and limitations
+  ~ under the License.
+  -->
+
+<web-app xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+		  http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+         version="2.5">
+
+    <listener>
+        <listener-class>
+            dk.statsbiblioteket.doms.webservices.configuration.ConfigContextListener
+        </listener-class>
+    </listener>
+
+    <listener>
+        <listener-class>
+            com.sun.xml.ws.transport.http.servlet.WSServletContextListener
+        </listener-class>
+    </listener>
+
+    <filter>
+        <display-name>AuthFilter</display-name>
+        <filter-name>AuthFilter</filter-name>
+        <filter-class>dk.statsbiblioteket.doms.webservices.authentication.AuthFilter</filter-class>
+        <init-param>
+            <param-name>Realm name</param-name>
+            <param-value>Update Tracker</param-value>
+        </init-param>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthFilter</filter-name>
+        <servlet-name>WSServlet</servlet-name>
+    </filter-mapping>
+
+    <context-param>
+        <description>the location of the fedora instance</description>
+        <param-name>dk.statsbiblioteket.doms.updatetracker.fedoralocation</param-name>
+        <param-value>http://localhost:8080/fedora</param-value>
+    </context-param>
+
+
+
+    <servlet>
+        <description>JAX-WS endpoint</description>
+        <display-name>WSServlet</display-name>
+        <servlet-name>WSServlet</servlet-name>
+        <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet
+        </servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>WSServlet</servlet-name>
+        <url-pattern>/updatetracker/*</url-pattern>
+    </servlet-mapping>
+
+
+    <!--This is the surveyable servlet, the one that initialialises the surveyable classes-->
+        <servlet>
+            <description>JAX-WS endpoint</description>
+            <display-name>WSServletSurveyable</display-name>
+            <servlet-name>WSServletSurveyable</servlet-name>
+            <servlet-class>com.sun.xml.ws.transport.http.servlet.WSServlet
+            </servlet-class>
+            <load-on-startup>1</load-on-startup>
+        </servlet>
+        <servlet-mapping>
+            <servlet-name>WSServletSurveyable</servlet-name>
+            <url-pattern>/surveyable/*</url-pattern>
+        </servlet-mapping>
+      <context-param>
+        <description>The class that will be exposed for surveillance
+        </description>
+        <param-name>
+            dk.statsbiblioteket.doms.domsutil.surveyable.surveyables
+        </param-name>
+        <param-value>
+            dk.statsbiblioteket.doms.domsutil.surveyable.RunningSurveyable;
+            dk.statsbiblioteket.doms.domsutil.surveillance.logappender.CachingLogRegistry
+        </param-value>
+    </context-param>
+
+    <context-param>
+        <description>The name of the service for surveillance purposes
+        </description>
+        <param-name>
+                dk.statsbiblioteket.doms.surveillance.logappender.LoggerName
+        </param-name>
+        <param-value>
+            DomsUpdateTracker
+        </param-value>
+    </context-param>
+
+
+    <!--This servlet is used only to load on startup, and configure the logging framework.-->
+        <servlet>
+            <description>The servlet that is loaded on startup, and initializes the logging system</description>
+            <servlet-name>Log4jInitialisation</servlet-name>
+            <servlet-class>dk.statsbiblioteket.doms.webservices.logging.Log4JInitServlet</servlet-class>
+            <init-param>
+                <description>Name of the context param that controls the location of the log4j config file</description>
+                <param-name>
+                    dk.statsbiblioteket.doms.webservices.logging.Log4JInitServlet.log4jConfigurationPropertyKey
+                </param-name>
+                <param-value>
+                    dk.statsbiblioteket.doms.updatetracker.log4jconfig
+                </param-value>
+            </init-param>
+            <load-on-startup>1</load-on-startup>
+        </servlet>
+        <context-param>
+            <description>The location of the log4j config file</description>
+            <param-name>dk.statsbiblioteket.doms.updatetracker.log4jconfig</param-name>
+            <param-value>WEB-INF/log4jproperties.xml</param-value>
+        </context-param>
+
+</web-app>
