@@ -28,6 +28,39 @@
             <artifactId>domsutil-bundle</artifactId>
             <type>pom</type>
         </dependency>
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-core</artifactId>
+
+
+        </dependency>
+        <dependency>
+            <groupId>javax.persistence</groupId>
+            <artifactId>persistence-api</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-annotations</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>0.9.28</version>
+        </dependency>
+
+         <dependency>
+           <groupId>javassist</groupId>
+           <artifactId>javassist</artifactId>
+           <version>3.4.GA</version>
+
+       </dependency>
+
     </dependencies>
 
 </project>
