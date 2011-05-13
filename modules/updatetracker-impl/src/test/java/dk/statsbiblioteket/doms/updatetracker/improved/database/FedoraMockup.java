@@ -1,8 +1,10 @@
-package dk.statsbiblioteket.doms.updatetracker.improved.database.hibernate;
+package dk.statsbiblioteket.doms.updatetracker.improved.database;
 
 import dk.statsbiblioteket.doms.updatetracker.improved.fedora.Fedora;
 import dk.statsbiblioteket.doms.updatetracker.improved.fedora.ViewInfo;
+import dk.statsbiblioteket.doms.webservices.authentication.Credentials;
 
+import java.net.MalformedURLException;
 import java.util.*;
 
 /**
@@ -18,6 +20,10 @@ public class FedoraMockup extends Fedora{
 
     Map<String,Set<String>> bundles = new HashMap<String,Set<String>>();
 
+    public FedoraMockup(Credentials creds, String fedoraLocation, String ecmLocation) throws MalformedURLException {
+
+    }
+
     protected void addObject(String pid){
         objects.add(pid);
     }
@@ -31,7 +37,7 @@ public class FedoraMockup extends Fedora{
     }
 
     @Override
-    public List<ViewInfo> getViewInfo(String pid) {
+    public List<ViewInfo> getViewInfo(String pid, Date date) {
         if (bundles.containsKey(pid)){
             ArrayList<ViewInfo> list = new ArrayList<ViewInfo>();
             ViewInfo view = new ViewInfo("SummaVisible",true,pid);
@@ -48,9 +54,9 @@ public class FedoraMockup extends Fedora{
     public ViewBundle calcViewBundle(String entryPid, String viewAngle, Date date) {
         if (bundles.containsKey(entryPid)){
             ViewBundle bundle = new ViewBundle();
-            bundle.entry = entryPid;
-            bundle.viewAngle = viewAngle;
-            bundle.contained = new ArrayList<String>(bundles.get(entryPid));
+            bundle.setEntry(entryPid);
+            bundle.setViewAngle(viewAngle);
+            bundle.setContained(new ArrayList<String>(bundles.get(entryPid)));
             return bundle;
         }
         return null;

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entry xmlns="http://www.w3.org/2005/Atom" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2005/Atom atom.xsd">
+    <id>urn:uuid:587c618b-8bfc-49a9-ac8b-927133be1b47</id>
+    <updated>2011-05-10T11:27:34.153Z</updated>
+    <author>
+        <name>fedoraAdmin</name>
+        <uri>http://localhost:7880/fedora</uri>
+    </author>
+    <title type="text">modifyObject</title>
+    <category term="test:25" scheme="fedora-types:pid" label="xsd:string"></category>
+    <category term="A" scheme="fedora-types:state" label="xsd:string"></category>
+    <category term="" scheme="fedora-types:label" label="xsd:string"></category>
+    <category term="null" scheme="fedora-types:logMessage" label="xsd:string"></category>
+    <summary type="text">test:25</summary>
+    <content type="text">2011-05-10T11:27:34.151Z</content>
+    <category term="3.4.2" scheme="info:fedora/fedora-system:def/view#version"></category>
+    <category term="info:fedora/fedora-system:ATOM-APIM-1.0"
+              scheme="http://www.fedora.info/definitions/1/0/types/formatURI"></category>
+</entry>

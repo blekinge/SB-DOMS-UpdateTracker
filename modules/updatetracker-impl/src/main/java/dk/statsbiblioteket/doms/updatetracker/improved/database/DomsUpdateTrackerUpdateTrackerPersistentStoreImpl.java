@@ -1,11 +1,8 @@
-package dk.statsbiblioteket.doms.updatetracker.improved.database.hibernate;
+package dk.statsbiblioteket.doms.updatetracker.improved.database;
 
 import dk.statsbiblioteket.doms.updatetracker.improved.fedora.Fedora;
 import dk.statsbiblioteket.doms.updatetracker.improved.fedora.ViewInfo;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
+import org.hibernate.*;
 import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.criterion.NaturalIdentifier;
 import org.hibernate.criterion.Order;
@@ -20,13 +17,13 @@ import java.util.*;
  * Time: 2:16 PM
  * To change this template use File | Settings | File Templates.
  */
-public class DomsUpdateTrackerHibernateImpl implements Hibernate {
+public class DomsUpdateTrackerUpdateTrackerPersistentStoreImpl implements UpdateTrackerPersistentStore {
 
     private SessionFactory sessionFactory;
 
     Fedora fedora;
 
-    public DomsUpdateTrackerHibernateImpl(Fedora fedora) {
+    public DomsUpdateTrackerUpdateTrackerPersistentStoreImpl(Fedora fedora) {
         this.fedora = fedora;
     }
 
@@ -38,10 +35,6 @@ public class DomsUpdateTrackerHibernateImpl implements Hibernate {
                 .configure()
                 .buildSessionFactory();
     }
-
-
-
-
 
 
     private void objectModified(String pid, Date date, String state) {
@@ -62,7 +55,7 @@ public class DomsUpdateTrackerHibernateImpl implements Hibernate {
             }
 
             // Find view Info for this object
-            List<ViewInfo> viewInfoList = fedora.getViewInfo(pid);
+            List<ViewInfo> viewInfoList = fedora.getViewInfo(pid,date);
             for (ViewInfo viewInfo : viewInfoList) {
                 //If it is an entry object, set it in the ENTRIES table
                 if (viewInfo.isEntry()) {
@@ -220,11 +213,11 @@ public class DomsUpdateTrackerHibernateImpl implements Hibernate {
 
 
             //Add all the objects from the bundle to the objects Table.
-            for (String objectPid : bundle.contained) {
-                updateDomsObjects(session,objectPid,bundle.entry,bundle.viewAngle);
+            for (String objectPid : bundle.getContained()) {
+                updateDomsObjects(session,objectPid, bundle.getEntry(), bundle.getViewAngle());
             }
 
-            updateEntry(session,bundle.entry,"I",bundle.viewAngle,date);
+            updateEntry(session, bundle.getEntry(),"I", bundle.getViewAngle(),date);
 
         }
     }
@@ -233,15 +226,23 @@ public class DomsUpdateTrackerHibernateImpl implements Hibernate {
 
 
     @Override
-    public List<Entry> lookup(Date since){
+    public List<Entry> lookup(Date since, String viewAngle, int offset, int limit, boolean newestFirst){
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         try {
 
-            List results = session.createCriteria(Entry.class)
-                    .addOrder(Order.asc("dateForChange"))
+            Criteria thing = session.createCriteria(Entry.class)
                     .add(Restrictions.ge("dateForChange", since))
-                    .list();
+                    .add(Restrictions.naturalId().set("viewAngle", viewAngle))
+                    .setFirstResult(offset)
+                    .setFetchSize(limit);
+            if (newestFirst){
+                thing.addOrder(Order.desc("dateForChange"));
+            } else {
+                thing.addOrder(Order.asc("dateForChange"));
+            }
+            List results = thing.list();
+
 
             List<Entry> entries = new ArrayList<Entry>(results.size());
             for (Object result : results) {

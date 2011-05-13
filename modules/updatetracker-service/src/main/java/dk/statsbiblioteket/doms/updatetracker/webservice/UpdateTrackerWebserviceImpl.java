@@ -4,19 +4,23 @@ import dk.statsbiblioteket.doms.updatetracker.BackendInvalidCredsException;
 import dk.statsbiblioteket.doms.updatetracker.BackendMethodFailedException;
 import dk.statsbiblioteket.doms.updatetracker.PidAndOther;
 import dk.statsbiblioteket.doms.updatetracker.UpdateTrackerImpl;
+import dk.statsbiblioteket.doms.updatetracker.improved.Meat;
+import dk.statsbiblioteket.doms.updatetracker.improved.database.Entry;
 import dk.statsbiblioteket.doms.webservices.authentication.Credentials;
 
 import javax.annotation.Resource;
+import javax.jms.JMSException;
 import javax.jws.WebParam;
 import javax.jws.WebService;
 import javax.servlet.http.HttpServletRequest;
 import javax.xml.ws.WebServiceContext;
 import javax.xml.ws.handler.MessageContext;
 import java.lang.String;
+import java.net.MalformedURLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Update tracker webservice. Provides upper layers of DOMS with info on changes
@@ -36,8 +40,18 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
     private DateFormat alternativefedoraFormat = new SimpleDateFormat(
             "yyyy-MM-dd'T'HH:mm:ss'Z'");
 
-    public UpdateTrackerWebserviceImpl() throws MethodFailedException {
+    static {
+        try {
+            Meat.startup();
+            //TODO
+        } catch (MalformedURLException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        } catch (JMSException e) {
+            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
+        }
+    }
 
+    public UpdateTrackerWebserviceImpl() throws MethodFailedException {
     }
 
     /**
@@ -71,70 +85,26 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
 
     {
 
-        try {
-            List<PidAndOther> list = new UpdateTrackerImpl(getCredentials()).getModifiedObjects(collectionPid,
-                                                        viewAngle,
-                                                        beginTime,
-                                                        state,
-                                                        offset,
-                                                        limit,
-                                                        false);
+        List<Entry> entries = Meat.getStore().lookup(new Date(beginTime), viewAngle, offset, limit, false);
+        return convert(entries);
 
-            return convert(list);
-        } catch (BackendInvalidCredsException e) {
-            throw new InvalidCredentialsException("Invalid credentials", "", e);
-        } catch (BackendMethodFailedException e) {
-            throw new MethodFailedException("Method failed", "", e);
-        }
+}
 
-    }
-
-    private List<PidDatePidPid> convert(List<PidAndOther> list) {
-        List<PidDatePidPid> list2 = new ArrayList<PidDatePidPid>(list.size());
-        for (PidAndOther pidAndOther : list) {
-            list2.add(convert(pidAndOther));
+    private List<PidDatePidPid> convert(List<Entry> entries) {
+        List<PidDatePidPid> list2 = new ArrayList<PidDatePidPid>(entries.size());
+        for (Entry entry : entries) {
+            list2.add(convert(entry));
         }
         return list2;
-
     }
 
-    private PidDatePidPid convert(PidAndOther thing) {
+    private PidDatePidPid convert(Entry thing) {
         PidDatePidPid thang = new PidDatePidPid();
-        thang.setCollectionPid(thing.getCollectionPid());
-        thang.setEntryCMPid(thing.getEntryCMPid());
-        thang.setLastChangedTime(thing.getLastChangedTime());
-        thang.setPid(thing.getPid());
+        thang.setLastChangedTime(thing.getDateForChange().getTime());
+        thang.setPid(thing.getEntryPid());
         return thang;
     }
 
-    public List<PidDatePidPid> getModifiedObjects(String collectionPid,
-                                                  String viewAngle,
-                                                  long beginTime,
-                                                  String state,
-                                                  Integer offset,
-                                                  Integer limit,
-                                                  boolean reverse
-    )
-            throws InvalidCredentialsException, MethodFailedException {
-        try {
-            List<PidAndOther> list = new UpdateTrackerImpl(getCredentials())
-                    .getModifiedObjects(
-                            collectionPid,
-                            viewAngle,
-                            beginTime,
-                            state,
-                            offset,
-                            limit,
-                            reverse);
-
-            return convert(list);
-        } catch (BackendInvalidCredsException e) {
-            throw new InvalidCredentialsException("Invalid credentials", "", e);
-        } catch (BackendMethodFailedException e) {
-            throw new MethodFailedException("Method failed", "", e);
-        }
-
-    }
 
     /**
      * Return the last time a view/record conforming to the content model of the
@@ -157,14 +127,11 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
             throws InvalidCredentialsException, MethodFailedException
     {
 
-        try {
-            return new UpdateTrackerImpl(getCredentials()).getLatestModificationTime(collectionPid,
-                                                                                     viewAngle,
-                                                                                     state);
-        } catch (BackendInvalidCredsException e) {
-            throw new InvalidCredentialsException("Invalid credentials", "", e);
-        } catch (BackendMethodFailedException e) {
-            throw new MethodFailedException("Method failed", "", e);
+        List<Entry> entries = Meat.getStore().lookup(new Date(0), viewAngle, 0, 1,true);
+        if (entries.size() != 1){
+            return 0;
+        } else {
+            return entries.get(0).getDateForChange().getTime();
         }
     }
 

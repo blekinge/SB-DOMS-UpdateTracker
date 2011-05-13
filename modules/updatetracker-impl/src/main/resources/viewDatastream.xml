@@ -1,0 +1,25 @@
+<v:views xmlns:v="http://ecm.sourceforge.net/types/view/0/2/#">
+    <v:viewangle name="SummaVisible">
+<!--
+        <v:relations xmlns:doms="http://doms.statsbiblioteket.dk/relations/default/0/1/#">
+            <doms:hasShard/>
+        </v:relations>
+        <v:inverseRelations/>
+-->
+    </v:viewangle>
+    <v:viewangle name="SummaVisible2">
+        <v:relations>
+            <!--<doms:hasShard xmlns:doms="http://doms.statsbiblioteket.dk/relions/default/0/1/#"/>-->
+        </v:relations>
+        <v:inverseRelations/>
+    </v:viewangle>
+    <v:viewangle name="SummaVisible3">
+        <v:relations/>
+
+        <v:inverseRelations>
+            <doms:hasShard xmlns:doms="http://doms.statsbiblioteket/relations/default/0/1/#"/>
+            <doms:hasShard xmlns:doms="http://doms.statsbiblioteket/reltions/default/0/1/#"/>
+        </v:inverseRelations>
+    </v:viewangle>
+
+</v:views>

@@ -1,9 +1,14 @@
-package dk.statsbiblioteket.doms.updatetracker.improved.database.hibernate;
+package dk.statsbiblioteket.doms.updatetracker.improved.database;
 
+import dk.statsbiblioteket.doms.updatetracker.improved.database.DomsUpdateTrackerUpdateTrackerPersistentStoreImpl;
+import dk.statsbiblioteket.doms.updatetracker.improved.database.Entry;
+import dk.statsbiblioteket.doms.updatetracker.improved.database.FedoraMockup;
+import dk.statsbiblioteket.doms.updatetracker.improved.database.UpdateTrackerPersistentStore;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.net.MalformedURLException;
 import java.util.Date;
 import java.util.List;
 
@@ -17,16 +22,20 @@ import static junit.framework.Assert.*;
  * Time: 9:38 AM
  * To change this template use File | Settings | File Templates.
  */
-public class HibernateTest {
+public class UpdateTrackerPersistentStoreTest {
 
-    Hibernate db;
-    FedoraMockup fcmock = new FedoraMockup();
+    UpdateTrackerPersistentStore db;
+    FedoraMockup fcmock;
+
+    public UpdateTrackerPersistentStoreTest() throws MalformedURLException {
+        fcmock = new FedoraMockup(null,null,null);
+    }
 
 
     @Before
     public void setUp() throws Exception {
 
-        db = new DomsUpdateTrackerHibernateImpl(fcmock);
+        db = new DomsUpdateTrackerUpdateTrackerPersistentStoreImpl(fcmock);
         db.setUp();
     }
 

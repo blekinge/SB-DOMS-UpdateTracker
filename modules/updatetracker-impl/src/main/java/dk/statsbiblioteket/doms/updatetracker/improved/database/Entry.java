@@ -1,4 +1,4 @@
-package dk.statsbiblioteket.doms.updatetracker.improved.database.hibernate;
+package dk.statsbiblioteket.doms.updatetracker.improved.database;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.NaturalId;
