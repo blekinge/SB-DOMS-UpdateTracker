@@ -32,7 +32,7 @@
     <endpoint
             name='UpdateTrackerWebservice'
             interface='dk.statsbiblioteket.doms.updatetracker.webservice.UpdateTrackerWebservice'
-            implementation='dk.statsbiblioteket.doms.updatetracker.UpdateTrackerImpl'
+            implementation='dk.statsbiblioteket.doms.updatetracker.webservice.UpdateTrackerWebserviceImpl'
             wsdl='WEB-INF/wsdl/updatetracker.wsdl'
             service="{http://updatetracker.doms.statsbiblioteket.dk/}UpdateTrackerWebserviceService"
             port="{http://updatetracker.doms.statsbiblioteket.dk/}UpdateTrackerWebservicePort"
