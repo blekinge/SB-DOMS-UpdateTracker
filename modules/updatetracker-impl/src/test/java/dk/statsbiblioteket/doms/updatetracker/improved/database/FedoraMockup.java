@@ -21,7 +21,7 @@ public class FedoraMockup extends Fedora{
     Map<String,Set<String>> bundles = new HashMap<String,Set<String>>();
 
     public FedoraMockup(Credentials creds, String fedoraLocation, String ecmLocation) throws MalformedURLException {
-
+        super(creds,"http://something.dk","http://something.dk");
     }
 
     protected void addObject(String pid){
@@ -53,9 +53,7 @@ public class FedoraMockup extends Fedora{
     @Override
     public ViewBundle calcViewBundle(String entryPid, String viewAngle, Date date) {
         if (bundles.containsKey(entryPid)){
-            ViewBundle bundle = new ViewBundle();
-            bundle.setEntry(entryPid);
-            bundle.setViewAngle(viewAngle);
+            ViewBundle bundle = new ViewBundle(entryPid,viewAngle);
             bundle.setContained(new ArrayList<String>(bundles.get(entryPid)));
             return bundle;
         }

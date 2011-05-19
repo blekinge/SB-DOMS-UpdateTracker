@@ -45,9 +45,12 @@
                         <goals>
                             <goal>generate</goal>
                         </goals>
-
                     </execution>
+
                 </executions>
+                <configuration>
+                    <forceRegenerate>true</forceRegenerate>
+                </configuration>
 
             </plugin>
 

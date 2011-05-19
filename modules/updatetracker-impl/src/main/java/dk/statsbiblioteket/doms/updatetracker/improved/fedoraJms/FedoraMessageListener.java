@@ -2,7 +2,6 @@ package dk.statsbiblioteket.doms.updatetracker.improved.fedoraJms;
 
 import dk.statsbiblioteket.doms.updatetracker.improved.database.UpdateTrackerPersistentStore;
 import dk.statsbiblioteket.doms.updatetracker.improved.jms.*;
-import org.junit.experimental.categories.Category;
 
 import javax.jms.JMSException;
 import javax.jms.Message;

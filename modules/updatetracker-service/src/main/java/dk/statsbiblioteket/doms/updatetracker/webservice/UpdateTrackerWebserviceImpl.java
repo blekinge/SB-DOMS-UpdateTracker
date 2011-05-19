@@ -1,9 +1,5 @@
 package dk.statsbiblioteket.doms.updatetracker.webservice;
 
-import dk.statsbiblioteket.doms.updatetracker.BackendInvalidCredsException;
-import dk.statsbiblioteket.doms.updatetracker.BackendMethodFailedException;
-import dk.statsbiblioteket.doms.updatetracker.PidAndOther;
-import dk.statsbiblioteket.doms.updatetracker.UpdateTrackerImpl;
 import dk.statsbiblioteket.doms.updatetracker.improved.Meat;
 import dk.statsbiblioteket.doms.updatetracker.improved.database.Entry;
 import dk.statsbiblioteket.doms.webservices.authentication.Credentials;
