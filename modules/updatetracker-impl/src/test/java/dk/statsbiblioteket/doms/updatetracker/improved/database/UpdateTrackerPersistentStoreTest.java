@@ -49,10 +49,10 @@ public class UpdateTrackerPersistentStoreTest {
         Date now = new Date();
         fcmock.addEntry("doms:test1");
         db.objectCreated("doms:test1", now);
-        List<Entry> list = db.lookup(now,"SummaVisible",0,100,false);
+        List<Entry> list = db.lookup(now,"SummaVisible",0,100,null,false);
         assertEquals("To many objects, some should have been deleted",1, list.size());
 
-        list = db.lookup(new Date(),"SummaVisible",0,100,false);
+        list = db.lookup(new Date(),"SummaVisible",0,100,null,false);
         assertEquals("To many objects, some should have been deleted",0, list.size());
 
     }
@@ -68,12 +68,12 @@ public class UpdateTrackerPersistentStoreTest {
 
 
 
-        List<Entry> list = db.lookup(old,"SummaVisible",0,100,false);
+        List<Entry> list = db.lookup(old,"SummaVisible",0,100,null,false);
         assertEquals("To many objects", 2, list.size());
-        list = db.lookup(now,"SummaVisible",0,100,false);
+        list = db.lookup(now,"SummaVisible",0,100,null,false);
         assertEquals("To many objects", 1, list.size());
 
-        list = db.lookup(new Date(),"SummaVisible",0,100,false);
+        list = db.lookup(new Date(),"SummaVisible",0,100,null,false);
         assertEquals("To many objects", 0, list.size());
 
     }
@@ -86,14 +86,14 @@ public class UpdateTrackerPersistentStoreTest {
         db.objectCreated("doms:test2",frozen);
         fcmock.addEntry("doms:test1","doms:test2");
 
-        List<Entry> list = db.lookup(frozen,"SummaVisible",0,100,false);
+        List<Entry> list = db.lookup(frozen,"SummaVisible",0,100,null,false);
         assertEquals(1,list.size());
         assertEquals(list.get(0).getDateForChange().getTime(),frozen.getTime());
 
         Date flow = new Date();
         db.objectRelationsChanged("doms:test1",flow);
 
-        list = db.lookup(frozen,"SummaVisible",0,100,false);
+        list = db.lookup(frozen,"SummaVisible",0,100,null,false);
         assertEquals(1,list.size());
         assertEquals(list.get(0).getDateForChange().getTime(),flow.getTime());
 
@@ -101,14 +101,14 @@ public class UpdateTrackerPersistentStoreTest {
 
         db.objectChanged("doms:test2",flow2);
 
-        list = db.lookup(frozen,"SummaVisible",0,100,false);
+        list = db.lookup(frozen,"SummaVisible",0,100,null,false);
         assertEquals(1,list.size());
         assertEquals(list.get(0).getDateForChange().getTime(),flow2.getTime());
 
         Date flow3 = new Date();
 
         db.objectPublished("doms:test1",flow3);
-        list = db.lookup(frozen,"SummaVisible",0,100,false);
+        list = db.lookup(frozen,"SummaVisible",0,100,null,false);
                 assertEquals(2,list.size());
                 assertEquals(list.get(0).getDateForChange().getTime(),flow2.getTime());
         assertEquals(list.get(1).getDateForChange().getTime(),flow3.getTime());
@@ -122,7 +122,7 @@ public class UpdateTrackerPersistentStoreTest {
         db.objectCreated("doms:test1",frozen);
         Thread.sleep(1000);
         db.objectPublished("doms:test1",new Date());
-        List<Entry> list = db.lookup(frozen,"SummaVisible",0,100,false);
+        List<Entry> list = db.lookup(frozen,"SummaVisible",0,100,null,false);
         assertEquals("Wrong number of objects",list.size(),2);
         assertEquals(list.get(0).getDateForChange().getTime(),frozen.getTime());
         assertEquals(list.get(0).getState(),"I");
