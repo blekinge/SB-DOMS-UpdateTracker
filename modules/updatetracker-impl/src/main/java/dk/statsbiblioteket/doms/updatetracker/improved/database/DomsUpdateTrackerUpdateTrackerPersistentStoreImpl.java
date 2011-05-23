@@ -104,6 +104,7 @@ public class DomsUpdateTrackerUpdateTrackerPersistentStoreImpl implements Update
         if (results.size() == 0){
             session.save(new DomsObject(objectPid,entryPid,viewAngle));
         }
+
     }
 
     private void updateEntry(Session session, String entryPid, String state, String viewAngle, Date date) {
@@ -176,6 +177,7 @@ public class DomsUpdateTrackerUpdateTrackerPersistentStoreImpl implements Update
                 session.delete(result1);
             }
         }
+
     }
 
 
@@ -220,13 +222,14 @@ public class DomsUpdateTrackerUpdateTrackerPersistentStoreImpl implements Update
             updateEntry(session, bundle.getEntry(),"I", bundle.getViewAngle(),date);
 
         }
+        transaction.commit();
     }
 
 
 
 
     @Override
-    public List<Entry> lookup(Date since, String viewAngle, int offset, int limit, boolean newestFirst){
+    public List<Entry> lookup(Date since, String viewAngle, int offset, int limit, String state, boolean newestFirst){
         Session session = sessionFactory.getCurrentSession();
         Transaction transaction = session.beginTransaction();
         try {
@@ -237,9 +240,13 @@ public class DomsUpdateTrackerUpdateTrackerPersistentStoreImpl implements Update
                     .setFirstResult(offset)
                     .setFetchSize(limit);
             if (newestFirst){
-                thing.addOrder(Order.desc("dateForChange"));
+                thing = thing.addOrder(Order.desc("dateForChange"));
             } else {
-                thing.addOrder(Order.asc("dateForChange"));
+                thing = thing.addOrder(Order.asc("dateForChange"));
+            }
+
+            if (state != null && !state.trim().isEmpty()){
+                thing = thing.add(Restrictions.naturalId().set("state",state));
             }
             List results = thing.list();
 
@@ -251,7 +258,9 @@ public class DomsUpdateTrackerUpdateTrackerPersistentStoreImpl implements Update
                     entries.add(result1);
                 }
             }
+            transaction.commit();
             return entries;
+
 
         } catch (HibernateException e) {
             //TODO log

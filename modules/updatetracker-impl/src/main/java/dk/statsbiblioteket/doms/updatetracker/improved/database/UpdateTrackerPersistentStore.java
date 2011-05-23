@@ -50,7 +50,7 @@ public interface UpdateTrackerPersistentStore {
      * @param since
      * @return
      */
-    List<Entry> lookup(Date since, String viewAngle, int offset, int limit, boolean newestFirst);
+    List<Entry> lookup(Date since, String viewAngle, int offset, int limit, String state,         boolean newestFirst);
 
 
     /**

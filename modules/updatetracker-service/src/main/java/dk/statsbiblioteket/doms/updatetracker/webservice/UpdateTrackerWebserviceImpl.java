@@ -80,11 +80,12 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
             throws InvalidCredentialsException, MethodFailedException
 
     {
+        //Filter: state, collection
 
-        List<Entry> entries = Meat.getStore().lookup(new Date(beginTime), viewAngle, offset, limit, false);
+        List<Entry> entries = Meat.getStore().lookup(new Date(beginTime), viewAngle, offset, limit, state, false);
         return convert(entries);
 
-}
+    }
 
     private List<PidDatePidPid> convert(List<Entry> entries) {
         List<PidDatePidPid> list2 = new ArrayList<PidDatePidPid>(entries.size());
@@ -123,7 +124,7 @@ public class UpdateTrackerWebserviceImpl implements UpdateTrackerWebservice {
             throws InvalidCredentialsException, MethodFailedException
     {
 
-        List<Entry> entries = Meat.getStore().lookup(new Date(0), viewAngle, 0, 1,true);
+        List<Entry> entries = Meat.getStore().lookup(new Date(0), viewAngle, 0, 1,state,true);
         if (entries.size() != 1){
             return 0;
         } else {
