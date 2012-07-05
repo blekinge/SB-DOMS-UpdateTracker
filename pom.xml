@@ -3,7 +3,7 @@
     <parent>
         <groupId>dk.statsbiblioteket.doms</groupId>
         <artifactId>doms</artifactId>
-        <version>0.1.1</version>
+        <version>0.1.4</version>
     </parent>
 
     <groupId>dk.statsbiblioteket.doms.updatetracker</groupId>
@@ -19,9 +19,9 @@
 
 
     <modules>
-        <module>modules/updatetracker-service</module>
-        <module>modules/updatetracker-impl</module>
-        <module>modules/updatetracker-interface</module>
+        <module>updatetracker-service</module>
+        <module>updatetracker-impl</module>
+        <module>updatetracker-interface</module>
     </modules>
 
     <dependencyManagement>
